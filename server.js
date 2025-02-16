@@ -1,3 +1,5 @@
+require("dotenv").config(); // Add this at the top
+
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -6,8 +8,8 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-// const PORT = process.env.PORT
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
+const MONGO_URI = process.env.MONGO_URI;
 
 app.use(cors());
 app.use(helmet());
@@ -15,21 +17,16 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Connect to database
+// Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("Database connection established.");
-  })
-  .catch((error) => {
-    console.log("Could not connect to database", error);
-  });
+  .connect(MONGO_URI)
+  .then(() => console.log("✅ Database connection established."))
+  .catch((error) => console.error("❌ Could not connect to database", error));
 
 app.get("/", (req, res) => {
   res.json({ message: "Hello world" });
 });
 
-//
 app.listen(PORT, () => {
-  console.log(`App started on https://localhost:8080`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
