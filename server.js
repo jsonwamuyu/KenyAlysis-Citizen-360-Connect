@@ -6,6 +6,8 @@ const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
 
+const authRouter = require("./routers/authRouter");
+
 const app = express();
 
 const PORT = process.env.PORT || 8080;
@@ -23,9 +25,13 @@ mongoose
   .then(() => console.log("✅ Database connection established."))
   .catch((error) => console.error("❌ Could not connect to database", error));
 
+
+app.use("/api/auth", authRouter);
+
 app.get("/", (req, res) => {
   res.json({ message: "Hello world" });
 });
+
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
