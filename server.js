@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello world" });
 });
 
-
+// Listen
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
