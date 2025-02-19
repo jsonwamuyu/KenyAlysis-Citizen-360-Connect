@@ -1,4 +1,5 @@
-const joi = require("joi");
+// const joi = require("joi");
+import joi from 'joi'
 
 // Create a validation scheme to validate input
 

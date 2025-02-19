@@ -1,4 +1,5 @@
-const { hash } = require("bcryptjs");
+// const { hash } = require("bcryptjs");
+import {hash} from 'bcryptjs'
 
 
 exports.doHashing = (value, saltValue) => {

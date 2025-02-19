@@ -1,8 +1,12 @@
-const { signupSchema, loginSchema } = require("../middlewares/validator");
-const User = require("../models/usersModel");
-const doHashing = require("../utils/hashing");
+// const { signupSchema, loginSchema } = require("../middlewares/validator");
+// const User = require("../models/usersModel");
+// const doHashing = require("../utils/hashing");
+import doHashing from '../utils/hashing'
+import User from '../models/usersModel'
+import { signupSchema, loginSchema } from '../middlewares/validator';
 
 exports.signup = async (req, res) => {
+  // extract email and password from the request body
   const { email, password } = req.body;
   try {
     // Before storing user data, check whether they provide valid data
