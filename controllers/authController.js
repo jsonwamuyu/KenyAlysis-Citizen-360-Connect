@@ -1,9 +1,10 @@
 // const { signupSchema, loginSchema } = require("../middlewares/validator");
 // const User = require("../models/usersModel");
 // const doHashing = require("../utils/hashing");
-import doHashing from '../utils/hashing'
-import User from '../models/usersModel'
-import { signupSchema, loginSchema } from '../middlewares/validator';
+import jwt from "jsonwebtoken";
+import doHashing from "../utils/hashing";
+import User from "../models/usersModel";
+import { signupSchema, loginSchema } from "../middlewares/validator";
 
 exports.signup = async (req, res) => {
   // extract email and password from the request body
@@ -50,12 +51,45 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const { error, value } = loginSchema({ email, password });
+    const { error, value } = loginSchema.validate({ email, password });
     if (error) {
       return res
         .status(401)
         .json({ success: "false", message: error.details[0].message });
     }
+    // If theres no error, query the database
+    const existingUser = await User.findOne({ email }).select("+password");
+    // if no exciting user
+    if (!existingUser) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User does not exist" });
+    }
+    // If user exist, compare the password
+    const results = await comparePasswords(password, existingUser.password);
+
+    // provided password dont match with the one in database
+    if (!results) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials." });
+    }
+    // create a token
+    const token = jwt.sign(
+      {
+        userId: existingUser._id,
+        email: existingUser.email,
+        verified: existingUser.verified,
+      },
+      process.env.TOKEN_SECRET
+    );
+    res
+      .cookie("Authorization", "Bearer" + token, {
+        expires: new Date(Date.now() + 8 * 3600000),
+        httpOnly: process.env.NODE_ENV === "development",
+        secure: process.env.NODE_ENV === "production",
+      })
+      .json({ success: true, token, message: "Logged in successfully" });
   } catch (error) {
     console.log(error, "Sorry, an error occurred when trying to login.");
   }

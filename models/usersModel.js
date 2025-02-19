@@ -4,15 +4,15 @@ import mongoose from "mongoose";
 const userSchema = mongoose.Schema(
   {
     email: {
-      type: String, // ✅ Fixed
+      type: String,
       required: [true, "Email is required."],
       trim: true,
-      unique: true, // ✅ Fixed
+      unique: true,
       minLength: [5, "Email must have minimum 5 characters."],
       lowercase: true,
     },
     verified: {
-      type: Boolean, // ✅ Fixed
+      type: Boolean, 
       default: false,
     },
     verificationCode: {
@@ -20,25 +20,25 @@ const userSchema = mongoose.Schema(
       select: false,
     },
     verificationCodeValidation: {
-      type: Number, // ✅ Fixed
+      type: Number,
       select: false,
     },
     password: {
-      type: String, // ✅ Fixed
+      type: String, 
       required: [true, "Password is required."],
-      select: false, // Prevent users from querying passwords
+      select: false, 
       trim: true,
       minLength: [8, "Password must be 8 characters minimum."],
     },
     forgotPasswordCode: {
-      type: String, // ✅ Fixed
+      type: String, 
       select: false,
     },
     forgotPasswordCodeValidation: {
-      type: Number, // ✅ Fixed
+      type: Number, 
     },
   },
-  { timestamps: true } // ✅ Fixed
+  { timestamps: true } 
 );
 
 module.exports = mongoose.model("User", userSchema);
