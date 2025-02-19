@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const userSchema = mongoose.Schema(
   {
     email: {
-      typeof: String,
+      type: String, // ✅ Fixed
       required: [true, "Email is required."],
       trim: true,
-      unique: [true, "This email is associated with another account"],
+      unique: true, // ✅ Fixed
       minLength: [5, "Email must have minimum 5 characters."],
       lowercase: true,
     },
     verified: {
-      typeof: Boolean,
+      type: Boolean, // ✅ Fixed
       default: false,
     },
     verificationCode: {
@@ -19,25 +19,25 @@ const userSchema = mongoose.Schema(
       select: false,
     },
     verificationCodeValidation: {
-      type: code,
+      type: Number, // ✅ Fixed
       select: false,
     },
     password: {
-      typeof: String,
+      type: String, // ✅ Fixed
       required: [true, "Password is required."],
-      select: false, // will prevent users from querying database unless explicetly told.
+      select: false, // Prevent users from querying passwords
       trim: true,
-      minLength: [8, "Password must be 8 character minimum."],
+      minLength: [8, "Password must be 8 characters minimum."],
     },
     forgotPasswordCode: {
-      typeof: String,
+      type: String, // ✅ Fixed
       select: false,
     },
     forgotPasswordCodeValidation: {
-      typeof: number,
+      type: Number, // ✅ Fixed
     },
   },
-  { timestamp: true }
+  { timestamps: true } // ✅ Fixed
 );
 
 module.exports = mongoose.model("User", userSchema);

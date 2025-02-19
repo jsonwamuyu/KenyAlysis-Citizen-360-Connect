@@ -33,13 +33,11 @@ exports.signup = async (req, res) => {
 
     // mongoose will return both email and password, we do not want to serve the password, make it undefined
     results.password = undefined;
-    res
-      .status(2001)
-      .json({
-        success: true,
-        message: "Account created successfully.",
-        results,
-      });
+    res.status(2001).json({
+      success: true,
+      message: "Account created successfully.",
+      results,
+    });
   } catch (error) {
     console.log("Sorry, an error occurred when trying to signup.", error);
   }
@@ -55,6 +53,6 @@ exports.login = async (req, res) => {
         .json({ success: "false", message: error.details[0].message });
     }
   } catch (error) {
-    console.log(error, "Sorry, an error occurred when trying to signup.");
+    console.log(error, "Sorry, an error occurred when trying to login.");
   }
 };

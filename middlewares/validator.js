@@ -8,12 +8,13 @@ exports.signupSchema = joi.object({
     .min(5)
     .max(60)
     .required()
-    .email({ tlds: { allow: ["com", "net"] } }),
+    .email(),
+    
   password: joi
     .string()
     .required()
     .min(8)
-    .pattern(new RegExp("^(?*.*[a-z])(?*.*[A-Z])(?.*d).{&,}$")),// TODO: change this pattern
+    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")),// TODO: change this pattern
 });
 
 exports.loginSchema = joi.object({
@@ -22,10 +23,10 @@ exports.loginSchema = joi.object({
     .min(5)
     .max(60)
     .required()
-    .email({ tlds: { allow: ["com", "net"] } }),
+    .email(),
   password: joi
     .string()
     .min(8)
-    .pattern(new RegExp("^(?*.*[a-z])(?*.*[A-Z])(?.*d).{&,}$"))
+    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"))
     .required(),
 });
