@@ -8,7 +8,9 @@ router.post("/signup", authController.signup);
 
 router.get("/login", authController.login);
 
+router.get('/logout', authController.logout);
 
+router.patch('/send-verification-code', authController.sendVerificationCode)
 
 
 module.exports = router;

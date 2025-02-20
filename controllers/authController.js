@@ -1,10 +1,8 @@
-// const { signupSchema, loginSchema } = require("../middlewares/validator");
-// const User = require("../models/usersModel");
-// const doHashing = require("../utils/hashing");
 import jwt from "jsonwebtoken";
 import doHashing from "../utils/hashing";
 import User from "../models/usersModel";
 import { signupSchema, loginSchema } from "../middlewares/validator";
+import transport from "../middlewares/sendEmail";
 
 exports.signup = async (req, res) => {
   // extract email and password from the request body
@@ -81,8 +79,11 @@ exports.login = async (req, res) => {
         email: existingUser.email,
         verified: existingUser.verified,
       },
-      process.env.TOKEN_SECRET
+      process.env.TOKEN_SECRET,
+      { expiresIn: "8h" }
     );
+
+    // TODO: Check whether shoulD be development and production or both should be production
     res
       .cookie("Authorization", "Bearer" + token, {
         expires: new Date(Date.now() + 8 * 3600000),
@@ -92,5 +93,61 @@ exports.login = async (req, res) => {
       .json({ success: true, token, message: "Logged in successfully" });
   } catch (error) {
     console.log(error, "Sorry, an error occurred when trying to login.");
+  }
+};
+
+exports.logout = async (req, res) => {
+  res
+    .clearCookie("Authorization")
+    .status(200)
+    .json({ success: true, message: "Logged out successfully." });
+};
+
+// A function to send an email to the users to verify their account
+exports.sendVerificationCode = async (req, res) => {
+  const { email } = req.body;
+  try {
+    // Check if user exist using the provided email address
+    const existingUser = await User.findOne({ email });
+    // If no existing user
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User with this email does not exist.",
+      });
+      // If user exist
+      if (existingUser.verified) {
+        return res.status(400).json({
+          success: false,
+          message: "This account is already verified.",
+        });
+      }
+      // If not verified, generate a code and send it
+      const codeVerify = Math.floor(Math.random() * 1000000).toString();
+
+      let info = await transport.sendMail({
+        from: process.env.NODE_CODE_SENDING_EMAIL_ADDRESS,
+        to: existingUser.email,
+        subject: "Verification Code",
+        html: "<h1>" + codeVerify + "</h1>",
+      });
+      // Check if email code was sent successfully
+      if (info.accepted[0] === existingUser.email) {
+        // Save it in the database (hash it before installing it)
+        const hashedCodeValue = hmacCodeHashingProcess(
+          codeVerify,
+          process.env.HMAC_VERIFICATION_CODE_SECRET
+        );
+        // Update the verification code in the database
+        existingUser.verified = hashedCodeValue;
+        existingUser.verificationCodeValidation = Date.now();
+        await existingUser.save();
+        return res.status(200).json({ success: true, message: "Code sent" });
+      }
+      // Else code sent failed
+      res.status("400").json({ success: false, message: "code sent failed." });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
