@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
     if (error) {
       return res
         .status(401)
-        .json({ success: "false", message: error.details[0].message });
+        .json({ success: false, message: error.details[0].message });
     }
     // If theres no error, query the database
     const existingUser = await User.findOne({ email }).select("+password");
@@ -66,7 +66,7 @@ exports.login = async (req, res) => {
     // If user exist, compare the password
     const results = await comparePasswords(password, existingUser.password);
 
-    // provided password dont match with the one in database
+    // provided password don't match with the one in database
     if (!results) {
       return res
         .status(401)
@@ -83,7 +83,7 @@ exports.login = async (req, res) => {
       { expiresIn: "8h" }
     );
 
-    // TODO: Check whether shoulD be development and production or both should be production
+    // TODO: Check whether should be development and production or both should be production
     res
       .cookie("Authorization", "Bearer" + token, {
         expires: new Date(Date.now() + 8 * 3600000),
@@ -209,6 +209,18 @@ exports.verifyVerificationCode = async (req, res) => {
         .status(200)
         .json({ success: true, message: "Your account has been verified." });
     }
+    return res
+      .status(400)
+      .json({ success: false, message: "something unexpected occurred." });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.ChangePassword = async (req, res) => {
+  // To change password, the user needs to be logged in
+  const { userId, verified } = req.user; // getting "user" from the identifyUser() where it's restricting unauthorized access 
+  try {
   } catch (error) {
     console.log(error);
   }

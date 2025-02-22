@@ -6,7 +6,7 @@ exports.doHashing = (value, saltValue) => {
   return results;
 };
 
-exports.comparePasswords = (value, hashed) => {
+exports.comparePasswords = (value, hashedPassword) => {
   const results = compare(value, hashedPassword);
   return results;
 };
