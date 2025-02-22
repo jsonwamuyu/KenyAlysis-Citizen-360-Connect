@@ -151,3 +151,65 @@ exports.sendVerificationCode = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.verifyVerificationCode = async (req, res) => {
+  const { email, providedCode } = req.body;
+  try {
+    // Validate input from user
+    const { error, value } = acceptedCodeSchema.validate({
+      email,
+      providedCode,
+    });
+    // if error then throw an error
+    if (error) {
+      return res
+        .status(401)
+        .json({ success: false, message: error.details[0].message });
+    }
+    // Check whether user with this email exist in the database
+    const codeValue = providedCode.toString();
+    const existingUser = await User.findOne({ email }).select(
+      "+verificationCode+verificationCodeVerified"
+    );
+    if (!existingUser) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User does not exist" });
+    }
+    if (existingUser.verified) {
+      return res
+        .status(400)
+        .json({ success: false, message: "You are already verified." });
+    }
+    if (
+      existingUser.verificationCode ||
+      existingUser.verificationCodeValidation
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Something is wrong with your verification code",
+      });
+    }
+    // check whether the code has expired after 5 mins
+    if (Date.now() - existingUser.verificationCodeValidation > 5 * 60 * 1000) {
+      return res
+        .status(400)
+        .json({ success: false, message: "This code is already expired" });
+    }
+    const hashedCodeValue = hmacCodeHashingProcess(
+      codeValue,
+      process.env.HMAC_VERIFICATION_CODE_SECRET
+    );
+    if (hashedCodeValue === existingUser.verificationCode) {
+      existingUser.verified = true;
+      existingUser.verificationCode = undefined;
+      existingUser.verificationCodeValidation = undefined;
+      await existingUser.save();
+      return res
+        .status(200)
+        .json({ success: true, message: "Your account has been verified." });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
