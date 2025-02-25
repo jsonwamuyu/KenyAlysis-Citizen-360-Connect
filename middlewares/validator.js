@@ -38,3 +38,14 @@ exports.changePasswordSchema = joi.object({
     .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"))
     .required(),
 });
+
+//forgot password
+exports.acceptedFPCodeSchema = joi.object({
+  providedCode: joi.number().required(),
+  email: joi.string().min(5).max(60).email().required(),
+  newPassword: joi
+    .string()
+    .min(8)
+    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"))
+    .required(),
+});

@@ -221,7 +221,7 @@ exports.verifyVerificationCode = async (req, res) => {
   }
 };
 
-exports.ChangePassword = async (req, res) => {
+exports.changePassword = async (req, res) => {
   // To change password, the user needs to be logged in
   const { userId, verified } = req.user; // getting "user" from the identifyUser() where it's restricting unauthorized access
   const { oldPassword, newPAssword } = req.body;
@@ -267,6 +267,81 @@ exports.ChangePassword = async (req, res) => {
       success: true,
       message: "Password changed successfully.",
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Forgot password
+exports.sendForgotPasswordCode = async (req, res) => {
+  // We need email from the user (form)
+  const { email } = req.body;
+  try {
+    //Check whether user exist
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      res.status(404).json({ success: false, message: "User doesn't exist" });
+    }
+    // Generate a code to send to user
+    const codeValue = Math.floor(Math.random() * 1000000).toString();
+    let info = await transport.sendMail({
+      from: process.env.NODE_CODE_SENDING_EMAIL_ADDRESS,
+      to: existingUser.email,
+      subject: "Forgot password code",
+      html: "<h1>" + codeValue + "</h1>",
+    });
+
+    // if code accepted
+    if (info.accepted[0] === existingUser.email) {
+      const hashedCodeValue = hmacCodeHashingProcess(
+        codeValue,
+        process.env.HMAC_VERIFICATION_CODE_SECRET
+      );
+      existingUser.forgotPasswordCode = hashedCodeValue;
+      existingUser.forgotPasswordCodeValidation = Date.now();
+      await existingUser.save();
+      return res.status(200).json({ success: true, message: "Code sent" });
+    }
+
+    res.status(400).json({ success: false, message: "Code sent failed" });
+  } catch (error) {
+    console.log(error);
+  }
+  // const{error, value} =  ;
+};
+
+exports.verifyForgotPasswordCode = async (req, res) => {
+  const { email, providedCode, newPassword } = req.body;
+  try {
+    const { error, value } = acceptedFPCodeSchema.validate({
+      email,
+      providedCode,
+      newPassword,
+    });
+    if (error) {
+      return res
+        .status(401)
+        .json({ success: false, message: error.details[0].message });
+    }
+    const codeValue = providedCode.toString();
+    const existingUser = await User.findOne({ email }).select(
+      "+forgotPasswordCode +forgotPasswordCodeValidation"
+    );
+
+    // User does not exist, send a error
+    if (!existingUser) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User doesn't exist" });
+    }
+    if (
+      !existingUser.forgotPasswordCode ||
+      !existingUser.forgotPasswordCodeValidation
+    ) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Something is wrong with the code" });
+    }
   } catch (error) {
     console.log(error);
   }
