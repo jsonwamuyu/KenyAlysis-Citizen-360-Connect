@@ -1,4 +1,4 @@
-import joi from "joi";
+const joi = require("joi");
 
 // Create a validation scheme to validate input
 
@@ -24,4 +24,17 @@ exports.loginSchema = joi.object({
 exports.acceptedCodeSchema = joi.object({
   providedCode: joi.number().required(),
   email: joi.string().min(5).max(60).email().required(),
+});
+
+exports.changePasswordSchema = joi.object({
+  oldPassword: joi
+    .string()
+    .min(8)
+    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"))
+    .required(),
+  newPassword: joi
+    .string()
+    .min(8)
+    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$"))
+    .required(),
 });

@@ -1,5 +1,5 @@
 // Will restrict un authorize access of some routes if user does not have a token
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
 exports.identifyUser = async (req, res, next) => {
   let token;

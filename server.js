@@ -1,15 +1,12 @@
 require("dotenv").config(); // Add this at the top
 
-// const express = require("express");
-import express from 'express'
-import cors from 'cors'
-// const cors = require("cors");
-// const cookieParser = require("cookie-parser");
-import cookieParser from 'cookie-parser';
-import helmet from 'helmet';
-// const helmet = require("helmet");
-// const mongoose = require("mongoose");
-import mongoose from 'mongoose'
+const express = require("express");
+
+const cors = require("cors");
+
+const helmet = require("helmet");
+const mongoose = require("mongoose");
+
 
 const authRouter = require("./routers/authRouter");
 

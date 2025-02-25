@@ -1,7 +1,11 @@
-import jwt from "jsonwebtoken";
-import doHashing from "../utils/hashing";
+const jwt = require("jsonwebtoken");
+const doHashing = require("../utils/hashing");
 import User from "../models/usersModel";
-import { signupSchema, loginSchema } from "../middlewares/validator";
+import {
+  signupSchema,
+  loginSchema,
+  changePasswordSchema,
+} from "../middlewares/validator";
 import transport from "../middlewares/sendEmail";
 
 exports.signup = async (req, res) => {
@@ -219,8 +223,50 @@ exports.verifyVerificationCode = async (req, res) => {
 
 exports.ChangePassword = async (req, res) => {
   // To change password, the user needs to be logged in
-  const { userId, verified } = req.user; // getting "user" from the identifyUser() where it's restricting unauthorized access 
+  const { userId, verified } = req.user; // getting "user" from the identifyUser() where it's restricting unauthorized access
+  const { oldPassword, newPAssword } = req.body;
   try {
+    const { error, value } = changePasswordSchema.validate({
+      oldPassword,
+      newPAssword,
+    });
+    if (error) {
+      res
+        .status(401)
+        .json({ success: false, message: error.details[0].message });
+    }
+    if (!verified) {
+      res
+        .status(401)
+        .json({ success: false, message: "This account is not verified." });
+    }
+    // If user is verified
+    const existingUser = await User.findOne({ _id: userId }).select(
+      "+password"
+    );
+
+    // Check if user with such credentials exist
+    if (!existingUser) {
+      res
+        .status(401)
+        .json({ success: false, message: "This user doesn't exist" });
+    }
+    // If user exist => check if old password exist/match
+    const results = await doHashing(oldPassword, existingUser.password);
+    if (!results) {
+      res.status(401).json({ success: false, message: "Invalid credentials" });
+    }
+
+    // if correct, now hash the new password
+    const hashedPw = await doHashing(newPAssword, 12);
+    // Now store the hatched password
+    existingUser.password = hashedPw;
+    await existingUser.save();
+    // After saving the user, send a response
+    res.status(200).json({
+      success: true,
+      message: "Password changed successfully.",
+    });
   } catch (error) {
     console.log(error);
   }
