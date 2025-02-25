@@ -272,7 +272,7 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-// Forgot password
+// Forgot password -> send verification code to the user to their email
 exports.sendForgotPasswordCode = async (req, res) => {
   // We need email from the user (form)
   const { email } = req.body;
@@ -293,6 +293,7 @@ exports.sendForgotPasswordCode = async (req, res) => {
 
     // if code accepted
     if (info.accepted[0] === existingUser.email) {
+      // Has password before storing it
       const hashedCodeValue = hmacCodeHashingProcess(
         codeValue,
         process.env.HMAC_VERIFICATION_CODE_SECRET
@@ -302,17 +303,22 @@ exports.sendForgotPasswordCode = async (req, res) => {
       await existingUser.save();
       return res.status(200).json({ success: true, message: "Code sent" });
     }
-
-    res.status(400).json({ success: false, message: "Code sent failed" });
+    /// TODO -> check whether supposed to return the response or not
+    return res
+      .status(400)
+      .json({ success: false, message: "Code sent failed" });
   } catch (error) {
     console.log(error);
   }
-  // const{error, value} =  ;
 };
 
+// Now the user has the verification code and will enter it in Reset password form
+
 exports.verifyForgotPasswordCode = async (req, res) => {
+  // Get input fields from user i.e email, provided code and new password
   const { email, providedCode, newPassword } = req.body;
   try {
+    // Validate the input
     const { error, value } = acceptedFPCodeSchema.validate({
       email,
       providedCode,
@@ -324,6 +330,8 @@ exports.verifyForgotPasswordCode = async (req, res) => {
         .json({ success: false, message: error.details[0].message });
     }
     const codeValue = providedCode.toString();
+
+    //  Check whether user exist
     const existingUser = await User.findOne({ email }).select(
       "+forgotPasswordCode +forgotPasswordCodeValidation"
     );
@@ -342,6 +350,31 @@ exports.verifyForgotPasswordCode = async (req, res) => {
         .status(401)
         .json({ success: false, message: "Something is wrong with the code" });
     }
+    // Check password code expire date
+    if (Date.now() - existingUser.verificationCodeValidation > 5 * 60 * 1000) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Code has expired." });
+    }
+    const hashedCodeValue = hmacCodeHashingProcess(
+      codeValue,
+      process.env.HMAC_VERIFICATION_CODE_SECRET
+    );
+    if (hashedCodeValue === existingUser.forgotPasswordCode) {
+      // hash the new password and store it -> over-write the old password
+      const hashedPassword = await doHashing(newPassword, 12);
+      existingUser.password = hashedPassword;
+      existingUser.forgotPasswordCode = undefined;
+      existingUser.forgotPasswordCodeValidation = undefined;
+      existingUser.save();
+      return res
+        .status(200)
+        .json({ success: true, message: "Your password has been updated." });
+    }
+    // TODO -> check whether the password has been changed
+    return res
+      .status(400)
+      .json({ success: false, message: "Un expected error occurred." });
   } catch (error) {
     console.log(error);
   }

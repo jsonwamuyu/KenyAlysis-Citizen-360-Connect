@@ -22,4 +22,10 @@ router.patch(
 );
 router.patch("/", identifyUser, authController.changePassword);
 
+route.post("/send-forgot-password-code", authController.sendForgotPasswordCode);
+route.patch(
+  "/verify-forgot-password-code",
+  authController.verifyForgotPasswordCode
+);
+
 module.exports = router;
