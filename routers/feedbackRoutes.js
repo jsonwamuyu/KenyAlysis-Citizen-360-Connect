@@ -1,11 +1,11 @@
 // feedbackRoutes.js
-import express from 'express';
-import feedbackController from '../controllers/feedbackController.js';
-import { authenticate } from '../middlewares/authMiddleware.js';
+const express =  require('express');
+const feedbackController = require('../controllers/feedbackController.js');
+const { authenticate } = require('../middlewares/authMiddleware.js');
 
 const feedbackRouter = express.Router();
 
 feedbackRouter.post('/', authenticate, feedbackController.submitFeedback);
 feedbackRouter.get('/', authenticate, feedbackController.getAllFeedback);
 
-export default feedbackRouter;
+module.exports = feedbackRouter;
