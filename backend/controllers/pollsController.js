@@ -14,7 +14,7 @@ const voteSchema = Joi.object({
     vote_option: Joi.string().valid('Yes', 'No', 'Not Sure').required()
 });
 
-export const createPoll = async (req, res) => {
+const createPoll = async (req, res) => {
     try {
         const { error } = pollSchema.validate(req.body);
         if (error) return res.status(400).json({ success: false, message: error.details[0].message });
@@ -30,7 +30,7 @@ export const createPoll = async (req, res) => {
     }
 };
 
-export const getAllPolls = async (req, res) => {
+const getAllPolls = async (req, res) => {
     try {
         const result = await db.query('SELECT * FROM Polls');
         res.json(result.recordset);
@@ -39,7 +39,7 @@ export const getAllPolls = async (req, res) => {
     }
 };
 
-export const getPollById = async (req, res) => {
+const getPollById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!Number.isInteger(Number(id))) return res.status(400).json({ success: false, message: 'Invalid poll ID' });
@@ -54,7 +54,7 @@ export const getPollById = async (req, res) => {
     }
 };
 
-export const voteOnPoll = async (req, res) => {
+ const voteOnPoll = async (req, res) => {
     try {
         const { error } = voteSchema.validate(req.body);
         if (error) return res.status(400).json({ success: false, message: error.details[0].message });
@@ -69,3 +69,5 @@ export const voteOnPoll = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
     }
 };
+
+module.exports = {voteOnPoll, createPoll,getAllPolls,getPollById}

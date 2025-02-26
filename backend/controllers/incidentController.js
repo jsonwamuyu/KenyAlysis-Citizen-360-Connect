@@ -1,11 +1,11 @@
-import { incidentSchema } from "../middlewares/validator";
+const { incidentSchema } = require("../middlewares/validator");
 
 
 // To create an incident, user must be logged in(Add check at route level using a middleware)
 
 const db = require("../config/db");
 
-export const reportIncident = async (req, res) => {
+const reportIncident = async (req, res) => {
     try {
       // Validate request body
       const {error} = incidentSchema.validate(req.body)
@@ -23,7 +23,7 @@ export const reportIncident = async (req, res) => {
     }
 };
 
-export const getAllIncidents = async (req, res) => {
+const getAllIncidents = async (req, res) => {
     try {
         const result = await db.query('SELECT * FROM IncidentReports');
         res.json(result.recordset);
@@ -33,7 +33,7 @@ export const getAllIncidents = async (req, res) => {
     }
 };
 
-export const getIncidentById = async (req, res) => {
+const getIncidentById = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await db.query('SELECT * FROM IncidentReports WHERE id = @id', { id });
@@ -46,7 +46,7 @@ export const getIncidentById = async (req, res) => {
     }
 };
 
-export const updateIncidentStatus = async (req, res) => {
+const updateIncidentStatus = async (req, res) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
@@ -57,7 +57,7 @@ export const updateIncidentStatus = async (req, res) => {
     }
 };
 
-export const deleteIncident = async (req, res) => {
+const deleteIncident = async (req, res) => {
     try {
         const { id } = req.params;
         await db.query('DELETE FROM IncidentReports WHERE id = @id', { id });
@@ -66,3 +66,5 @@ export const deleteIncident = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
     }
 };
+
+module.exports = {deleteIncident, updateIncidentStatus, getAllIncidents, getIncidentById, reportIncident}

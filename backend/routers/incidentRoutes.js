@@ -1,20 +1,18 @@
-import express from 'express';
-import {
-    reportIncident,
-    getAllIncidents,
-    getIncidentById,
-    updateIncidentStatus,
-    deleteIncident
-} from '../controllers/incidentController.js';
-import { authenticate, authorizeGovOfficial } from '../middlewares/authMiddleware.js';
+const express = require('express');
+const incidentController = require('../controllers/incidentController.js'); 
+const { authenticate, authorizeGovOfficial } = require('../middlewares/authMiddleware.js');
+
+
+console.log("authenticate:", authenticate);
+console.log("authorizeGovOfficial:", authorizeGovOfficial);
+console.log("incidentController:", incidentController);
 
 const router = express.Router();
 
-// Routes for managing incidents
-router.post('/', authenticate, reportIncident);
-router.get('/', authenticate, authorizeGovOfficial, getAllIncidents);
-router.get('/:id', authenticate, getIncidentById);
-router.patch('/:id', authenticate, authorizeGovOfficial, updateIncidentStatus);
-router.delete('/:id', authenticate, authorizeGovOfficial, deleteIncident);
+router.post('/', authenticate, incidentController.reportIncident);
+router.get('/', authenticate, authorizeGovOfficial, incidentController.getAllIncidents);
+router.get('/:id', authenticate, incidentController.getIncidentById);
+router.patch('/:id', authenticate, authorizeGovOfficial, incidentController.updateIncidentStatus);
+router.delete('/:id', authenticate, authorizeGovOfficial, incidentController.deleteIncident);
 
-export default router;
+module.exports = router;

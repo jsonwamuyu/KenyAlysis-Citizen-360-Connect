@@ -53,14 +53,14 @@ exports.acceptedFPCodeSchema = joi.object({
 
 // Incident schema
 
-exports.incidentSchema = Joi.object({
-    user_id: Joi.number().integer().required(),
-    category: Joi.string().max(255).required(),
-    description: Joi.string().max(1000).required(),
-    media_url: Joi.string().uri().optional(),
-    location: Joi.string().max(255).required()
+exports.incidentSchema = joi.object({
+    user_id: joi.number().integer().required(),
+    category: joi.string().max(255).required(),
+    description: joi.string().max(1000).required(),
+    media_url: joi.string().uri().optional(),
+    location: joi.string().max(255).required()
 });
 
-exports.statusSchema = Joi.object({
-    status: Joi.string().valid('Submitted', 'Pending', 'Resolved').required()
+exports.statusSchema = joi.object({
+    status: joi.string().valid('Submitted', 'Pending', 'Resolved').required()
 });

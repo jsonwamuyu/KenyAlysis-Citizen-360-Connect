@@ -1,13 +1,14 @@
-// pollRoutes.js
 const express = require('express');
-const pollController = require('../controllers/pollController.js');
-const { authenticate, authorizeGovOfficial } = require('../middlewares/authMiddleware.js');
+const pollController = require('../controllers/pollsController.js'); // Ensure correct path
+const { authenticate, authorizeAdmin } = require('../middlewares/authMiddleware.js');
 
-const pollRouter = express.Router();
+console.log("pollController:", pollController);
 
-pollRouter.post('/', authenticate, authorizeGovOfficial, pollController.createPoll);
-pollRouter.get('/', authenticate, pollController.getAllPolls);
-pollRouter.get('/:id', authenticate, pollController.getPollById);
-pollRouter.post('/:id/vote', authenticate, pollController.voteOnPoll);
+const router = express.Router();
 
-module.exports =  pollRouter;
+router.post('/', authenticate, authorizeAdmin, pollController.createPoll);
+router.get('/', authenticate, pollController.getAllPolls);
+router.get('/:id', authenticate, pollController.getPollById);
+router.post('/:id/vote', authenticate, pollController.voteOnPoll);
+
+module.exports = router;

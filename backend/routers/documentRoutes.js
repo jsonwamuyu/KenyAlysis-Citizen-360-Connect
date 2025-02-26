@@ -1,11 +1,11 @@
-import express from 'express';
-import {
+const express = require('express');
+const {
     uploadDocument,
     getAllDocuments,
     getDocumentById,
     deleteDocument
-} from '../controllers/documentController.js';
-import { authenticate } from '../middlewares/authMiddleware.js';
+} = require('../controllers/documentController.js');
+const { authenticate } = require('../middlewares/authMiddleware.js');
 
 const router = express.Router();
 
@@ -15,4 +15,4 @@ router.get('/', authenticate, getAllDocuments);
 router.get('/:id', authenticate, getDocumentById);
 router.delete('/:id', authenticate, deleteDocument);
 
-export default router;
+module.exports = router;

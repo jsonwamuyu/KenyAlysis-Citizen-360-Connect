@@ -1,13 +1,15 @@
-// userRoutes.js
 const express = require('express');
-const userController = require('../controllers/userController.js');
-const { authenticate, authorizeAdmin } =  require('../middlewares/authMiddleware.js');
+const userController = require('../controllers/userController.js'); 
+const { authenticate, authorizeAdmin } = require('../middlewares/authMiddleware.js');
+
+console.log("authenticate:", authenticate);
+console.log("authorizeAdmin:", authorizeAdmin);
 
 const router = express.Router();
 
-userRouter.get('/', authenticate, authorizeAdmin, userController.getAllUsers);
-userRouter.get('/:id', authenticate, userController.getUserById);
-userRouter.patch('/:id/role', authenticate, authorizeAdmin, userController.updateUserRole);
-userRouter.delete('/:id', authenticate, authorizeAdmin, userController.deleteUser);
+router.get('/', authenticate, authorizeAdmin, userController.getAllUsers);
+router.get('/:id', authenticate, userController.getUserById);
+router.patch('/:id/role', authenticate, authorizeAdmin, userController.updateUserRole);
+router.delete('/:id', authenticate, authorizeAdmin, userController.deleteUser);
 
 module.exports = router;
