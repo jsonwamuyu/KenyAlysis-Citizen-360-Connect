@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
 const doHashing = require("../utils/hashing");
-import User from "../models/usersModel";
-import {
+const User = require("../models/usersModel");
+const {
   signupSchema,
   loginSchema,
   changePasswordSchema,
-} from "../middlewares/validator";
-import transport from "../middlewares/sendEmail";
+} =  require("../middlewares/validator");
+const transport = require("../middlewares/sendEmail");
 
 exports.signup = async (req, res) => {
   // extract email and password from the request body
@@ -186,8 +186,8 @@ exports.verifyVerificationCode = async (req, res) => {
         .json({ success: false, message: "You are already verified." });
     }
     if (
-      existingUser.verificationCode ||
-      existingUser.verificationCodeValidation
+      !existingUser.verificationCode ||
+      !existingUser.verificationCodeValidation
     ) {
       return res.status(400).json({
         success: false,
@@ -366,16 +366,16 @@ exports.verifyForgotPasswordCode = async (req, res) => {
       existingUser.password = hashedPassword;
       existingUser.forgotPasswordCode = undefined;
       existingUser.forgotPasswordCodeValidation = undefined;
-      existingUser.save();
+      await existingUser.save();
       return res
         .status(200)
         .json({ success: true, message: "Your password has been updated." });
     }
-    // TODO -> check whether the password has been changed
     return res
       .status(400)
-      .json({ success: false, message: "Un expected error occurred." });
+      .json({ success: false, message: "Unexpected error occurred." });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({success:false, message:"Internal Server Error"})
   }
 };
