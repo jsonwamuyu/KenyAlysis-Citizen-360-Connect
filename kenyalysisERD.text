@@ -1,0 +1,69 @@
++------------------+
+|      Roles       |
++------------------+
+| id (PK)         |
+| role_name       |
++------------------+
+
+        |
+        | role_id (FK)
+        V
+
++------------------+
+|      Users       |
++------------------+
+| id (PK)         |
+| name           |
+| email (Unique) |
+| password       |
+| role_id (FK)   |
+| created_at     |
+| updated_at     |
++------------------+
+
+        |
+        | created_by (FK)
+        V
+
++------------------+
+|      Polls       |
++------------------+
+| id (PK)         |
+| title          |
+| description    |
+| expiry_date    |
+| created_by (FK) |
+| created_at     |
++------------------+
+
+        |
+        | poll_id (FK)
+        V
+
++----------------------+
+|   User Feedback     |
++----------------------+
+| id (PK)             |
+| user_id (FK)        |
+| poll_id (FK)        |
+| feedback_text       |
+| ai_summary          |
+| created_at          |
++----------------------+
+
+        |
+        | user_id (FK)
+        V
+
++---------------------------+
+|     Incident Reports      |
++---------------------------+
+| id (PK)                  |
+| user_id (FK)             |
+| category                 |
+| description              |
+| status (Submitted, Pending, Resolved) |
+| media_url                |
+| created_at               |
+| updated_at               |
++---------------------------+

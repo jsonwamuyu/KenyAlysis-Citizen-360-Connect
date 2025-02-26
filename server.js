@@ -5,7 +5,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 
-const authRouter = require("./routers/authRouter");
+const authRouter = require("./routers/authRoutes");
 
 const app = express();
 
@@ -33,14 +33,23 @@ mongoose
     process.exit(1); // Exit if DB connection fails
   });
 
-// Routes
-app.use("/api/auth", authRouter);
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/polls', pollRoutes);
+app.use('/api/incidents', incidentRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
-app.get("/", (req, res) => {
-  res.json({ message: "Hello world" });
+// Default route
+app.get('/', (req, res) => {
+    res.send('CitizenConnect API is running...');
 });
 
 // Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+
+
+
