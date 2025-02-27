@@ -2,8 +2,6 @@ const express = require('express');
 const pollController = require('../controllers/pollsController.js'); // Ensure correct path
 const { authenticate, authorizeAdmin } = require('../middlewares/authMiddleware.js');
 
-console.log("pollController:", pollController);
-
 const router = express.Router();
 
 router.post('/', authenticate, authorizeAdmin, pollController.createPoll);

@@ -3,6 +3,7 @@ const joi = require("joi");
 // Create a validation scheme to validate input
 
 exports.signupSchema = joi.object({
+  username:joi.string().required().max(50).min(5),
   email: joi.string().min(5).max(60).required().email(),
 
   password: joi

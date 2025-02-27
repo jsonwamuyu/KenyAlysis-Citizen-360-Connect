@@ -2,11 +2,6 @@ const express = require('express');
 const incidentController = require('../controllers/incidentController.js'); 
 const { authenticate, authorizeGovOfficial } = require('../middlewares/authMiddleware.js');
 
-
-console.log("authenticate:", authenticate);
-console.log("authorizeGovOfficial:", authorizeGovOfficial);
-console.log("incidentController:", incidentController);
-
 const router = express.Router();
 
 router.post('/', authenticate, incidentController.reportIncident);

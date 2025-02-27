@@ -7,9 +7,9 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require("./routers/authRoutes");
 const userRoutes = require("./routers/userRoutes");
 const pollRoutes = require("./routers/pollRoutes");
-const incidentRoutes = require("./routers/incidentRoutes"); // ✅ Fix
-const feedbackRoutes = require("./routers/feedbackRoutes"); // ✅ Fix
-const documentRoutes = require("./routers/documentRoutes"); // ✅ Fix
+const incidentRoutes = require("./routers/incidentRoutes"); 
+const feedbackRoutes = require("./routers/feedbackRoutes"); 
+const documentRoutes = require("./routers/documentRoutes"); 
 
 const app = express();
 
@@ -26,9 +26,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/polls', pollRoutes);
-app.use('/api/incidents', incidentRoutes);  // ✅ Now defined
-app.use('/api/feedback', feedbackRoutes);  // ✅ Now defined
-app.use('/api/documents', documentRoutes);  // ✅ Now defined
+app.use('/api/incidents', incidentRoutes);  
+app.use('/api/feedback', feedbackRoutes);  
+app.use('/api/documents', documentRoutes); 
 
 // Default route
 app.get('/', (req, res) => {

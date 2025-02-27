@@ -2,9 +2,6 @@ const express = require('express');
 const userController = require('../controllers/userController.js'); 
 const { authenticate, authorizeAdmin } = require('../middlewares/authMiddleware.js');
 
-console.log("authenticate:", authenticate);
-console.log("authorizeAdmin:", authorizeAdmin);
-
 const router = express.Router();
 
 router.get('/', authenticate, authorizeAdmin, userController.getAllUsers);
