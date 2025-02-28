@@ -1,8 +1,8 @@
 const transport = require("../middlewares/sendEmail.js");
 const jwt = require("jsonwebtoken");
-const sql = require("mssql");
+// const sql = require("mssql");
 const bcrypt = require("bcryptjs");
-const db = require("../config/db");
+const {sql, poolPromise} = require("../config/db");
 const sendEmail = require("../middlewares/sendEmail");
 const {
   signupSchema,
@@ -21,7 +21,7 @@ const login = async (req, res) => {
         .json({ success: false, message: error.details[0].message });
 
     // Get database connection
-    const pool = await db;
+    const pool = await poolPromise;
     // Query user for email
     const user = await pool
       .request()
@@ -76,50 +76,45 @@ const logout = async (req, res) => {
 
 const signup = async (req, res) => {
   const { username, email, password } = req.body;
-  try {
-    const { error } = signupSchema.validate({ username, email, password });
-    if (error)
-      return res
-        .status(400)
-        .json({ success: false, message: error.details[0].message });
 
-    const pool = await db;
+  try {
+    // Validate input (assuming signupSchema is defined)
+    const { error } = signupSchema.validate({ username, email, password });
+    if (error) {
+      return res.status(400).json({ success: false, message: error.details[0].message });
+    }
+
+    // Get the connected pool
+    const pool = await poolPromise;
+
+    // Check if user already exists
     const checkUser = await pool
       .request()
-      .input("email", sql.NVarChar, email)
-      .query("SELECT * FROM Users WHERE email = @email");
+      .input('email', sql.NVarChar, email)
+      .query('SELECT * FROM Users WHERE email = @email');
 
-    if (checkUser.recordset.length > 0)
-      return res
-        .status(400)
-        .json({ success: false, message: "User already exists." });
+    if (checkUser.recordset.length > 0) {
+      return res.status(400).json({ success: false, message: 'User already exists.' });
+    }
 
+    // Hash password and insert user
     const hashedPassword = await bcrypt.hash(password, 12);
     await pool
       .request()
-      .input("username", sql.NVarChar, username)
-      .input("email", sql.NVarChar, email)
-      .input("password", sql.NVarChar, hashedPassword)
+      .input('username', sql.NVarChar, username)
+      .input('email', sql.NVarChar, email)
+      .input('password', sql.NVarChar, hashedPassword)
       .query(
-        "INSERT INTO Users (username, email, password, role_id) VALUES (@username, @email, @password, 1)"
+        'INSERT INTO Users (username, email, password, role_id) VALUES (@username, @email, @password, 1)'
       );
 
-    await sendEmail(
-      email,
-      "Welcome to Kenyalysis!",
-      "Hello! Thank you for signing up.",
-      `<h1>Hello! ${username} </h1><p>Thank you for signing up.</p>`
-    )
-      .then(() => console.log("✅ Email sent successfully"))
-      .catch((err) => console.log("❌ Failed to send email:", err));
-
-    res
-      .status(201)
-      .json({ success: true, message: "Account created successfully." });
+    // Respond with success
+    res.status(201).json({ success: true, message: 'Account created successfully.' });
   } catch (error) {
+    console.error(error); // Log full error for debugging
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: 'Internal server error',
       error: error.message,
     });
   }
@@ -128,8 +123,8 @@ const signup = async (req, res) => {
 const sendForgotPasswordEmail = async (req, res) => {
   const { email } = req.body;
   try {
-    const pool = await db;
-
+    // const pool = await db;
+    const pool = await poolPromise;
     // Check if user exists
     const user = await pool
       .request()
@@ -147,7 +142,7 @@ const sendForgotPasswordEmail = async (req, res) => {
       process.env.RESET_PASSWORD_SECRET,
       { expiresIn: "10m" }
     );
-    console.log(token)
+    console.log(resetToken)
 
     // Generate reset password link
     const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`;
@@ -172,6 +167,7 @@ const sendForgotPasswordEmail = async (req, res) => {
           "Password reset link sent to your email. Check your inbox. Don't forget to check spam folder.",
       });
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       success: false,
       message: "Internal server error",

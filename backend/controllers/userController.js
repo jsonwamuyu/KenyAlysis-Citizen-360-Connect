@@ -1,4 +1,4 @@
-const db = require('../config/db.js');
+const {sql, poolPromise} = require("../config/db");
 const Joi = require('joi');
 
 const updateRoleSchema = Joi.object({
@@ -7,24 +7,37 @@ const updateRoleSchema = Joi.object({
 
 const getAllUsers = async (req, res) => {
     try {
-        const result = await db.query('SELECT id, name, email, role_id, created_at FROM Users');
-        res.json(result.recordset);
+      const pool = await poolPromise;
+      const result = await pool
+        .request()
+        .query('SELECT id, username, email, role_id, created_at FROM Users'); // Corrected column name to 'username'
+  
+      res.json(result.recordset);
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
+        console.log(error)
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+        error: error.message,
+      });
     }
-};
+  };
+  
 
 const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!/^\d+$/.test(id)) return res.status(400).json({ success: false, message: 'Invalid user ID' });
 
-        const result = await db.request().input('id', db.Int, id).query('SELECT id, name, email, role_id, created_at FROM Users WHERE id = @id');
-        if (result.recordset.length === 0) {
+        const pool = await poolPromise
+
+        const user = await pool.request().input('id', sql.Int, id).query('SELECT id, username, email, role_id, created_at FROM Users WHERE id = @id');
+        if (user.recordset.length === 0) {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
-        res.json(result.recordset[0]);
+        res.json(user.recordset[0]);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
     }
 };

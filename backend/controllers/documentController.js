@@ -9,65 +9,63 @@ const documentSchema = Joi.object({
 });
 
 const uploadDocument = async (req, res) => {
-    console.log("Calling upload document")
   try {
     const { error } = documentSchema.validate(req.body);
-    if (error)
+    if (error) {
       return res
         .status(400)
         .json({ success: false, message: error.details[0].message });
+    }
 
     const { user_id, title, description, file_url } = req.body;
 
-    console.log("Before database connection")
     // Get database connection
     const pool = await poolPromise;
-    console.log("✅ Pool connection:", pool);
-    console.log("✅ SQL Module:", sql);
-    const request = pool.request(); // Correctly initialize the request
-    
-    console.log(request)
 
     // Check if the user is a government official (role_id = 2)
-    const userRole = await request
-      .input("user_id", sql.Int, user_id)
-      .query("SELECT role_id FROM Users WHERE id = @user_id");
+    const userRole = await pool
+      .request()
+      .input('user_id', sql.Int, user_id)
+      .query('SELECT role_id FROM Users WHERE id = @user_id');
 
-      console.log("Hello")
-      console.log(userRole)
+    if (userRole.recordset.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'User not found' });
+    }
 
-    if (
-      userRole.recordset.length === 0 ||
-      userRole.recordset[0].role_id !== 2
-    ) {
+    if (userRole.recordset[0].role_id !== 2) {
       return res
         .status(403)
         .json({
           success: false,
           message:
-            "Unauthorized: Only government officials can upload documents.",
+            'Unauthorized: Only government officials can upload documents.',
         });
     }
 
     // Insert document
-    await request
-      .input("user_id", sql.Int, user_id)
-      .input("title", sql.NVarChar(255), title)
-      .input("description", sql.NVarChar(500), description)
-      .input("file_url", sql.NVarChar(500), file_url).query(`
-                INSERT INTO Documents (user_id, title, description, file_url, uploaded_at) 
-                VALUES (@user_id, @title, @description, @file_url, GETDATE())
-            `);
+    await pool
+      .request()
+      .input('user_id', sql.Int, user_id)
+      .input('title', sql.NVarChar(255), title)
+      .input('description', sql.NVarChar(500), description)
+      .input('file_url', sql.NVarChar(500), file_url)
+      .query(`
+        INSERT INTO Documents (user_id, title, description, file_url, uploaded_at) 
+        VALUES (@user_id, @title, @description, @file_url, GETDATE())
+      `);
 
     res
       .status(201)
-      .json({ success: true, message: "Document uploaded successfully" });
+      .json({ success: true, message: 'Document uploaded successfully' });
   } catch (error) {
+    console.error(error); // Log the full error for debugging
     res
       .status(500)
       .json({
         success: false,
-        message: "Internal server error",
+        message: 'Internal server error',
         error: error.message,
       });
   }

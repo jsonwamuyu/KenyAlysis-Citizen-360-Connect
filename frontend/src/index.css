@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@400;700&display=swap");
+@import "tailwindcss";
+
+:root {
+  font-family: "Poppins", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  --theme-color: #1DA1F2;
+  --light-gray: #F5F8FA;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-theme {
+  background-color: var(--theme-color);
+  color:var(--light-gray)
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat";
+}
+
+.modal-background {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  inset: 0;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* opacity: 0.8; */
+}
+.modal-container {
+  height: auto;
+  padding: 1rem 2rem;
+  width:500px;
+  background-color: whitesmoke;
+  box-shadow: rgba(0,0, 0, 0.35) 0px 5px 15px;
+  border-radius: 0.875rem;
+  z-index: 10;
+
+}
+h3{
+font-size:3rem;
+line-height: 1.33;
+}

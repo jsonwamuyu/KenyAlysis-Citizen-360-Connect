@@ -10,7 +10,7 @@ const { authenticate, authorizeGovOfficial } = require('../middlewares/authMiddl
 const router = express.Router();
 
 // Routes for managing documents
-router.post('/', authenticate, authorizeGovOfficial, uploadDocument);
+router.post('/upload-document', authenticate, authorizeGovOfficial, uploadDocument);
 router.get('/all-documents', authenticate, getAllDocuments);
 router.get('/:id', authenticate, getDocumentById);
 router.delete('/:id', authenticate,authorizeGovOfficial, deleteDocument);
