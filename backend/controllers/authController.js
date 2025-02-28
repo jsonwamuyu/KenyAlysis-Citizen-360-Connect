@@ -147,6 +147,7 @@ const sendForgotPasswordEmail = async (req, res) => {
       process.env.RESET_PASSWORD_SECRET,
       { expiresIn: "10m" }
     );
+    console.log(token)
 
     // Generate reset password link
     const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`;
