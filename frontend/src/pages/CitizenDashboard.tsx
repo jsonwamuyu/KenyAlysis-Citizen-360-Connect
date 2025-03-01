@@ -1,4 +1,4 @@
-function UserDashboard(){
+function CitizenDashboard(){
     return(
         <div>
             user dashboard
@@ -6,4 +6,4 @@ function UserDashboard(){
     )
 }
 
-export default UserDashboard
+export default CitizenDashboard

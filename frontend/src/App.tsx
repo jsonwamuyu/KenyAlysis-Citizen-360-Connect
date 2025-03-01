@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Navigate, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
 import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
 import ResetPassword from "./pages/ResetPassword"
 import ForgotPassword from "./pages/ForgotPassword"
-import UserDashboard from "./pages/UserDashboard"
+import CitizenDashboard from "./pages/CitizenDashboard"
 import GovernmentOfficialDashboard from "./pages/GovernmentOfficialDashboard"
 import AdminDashboard from './pages/AdminDashBoard'
 
@@ -21,9 +21,9 @@ function App(){
     <Route path="/forgot-password" element={<ForgotPassword/>}/>
     
     {/* dashboard routes */}
-    <Route path="/user" element={<UserDashboard/>}/>
-    <Route path="/government-official" element={<GovernmentOfficialDashboard/>}/>
-    <Route path="/admin" element={<AdminDashboard/>}/>
+    <Route path="/user/citizen" element={<CitizenDashboard/>}/>
+    <Route path="/user/gvt-official" element={<GovernmentOfficialDashboard/>}/>
+    <Route path="/user/admin" element={<AdminDashboard/>}/>
 
   </Routes>
 </Router>

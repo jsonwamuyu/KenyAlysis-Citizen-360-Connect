@@ -5,7 +5,10 @@
   --primary-dark: #011627; /* Dark Navy */
   --primary-light: #fdfffc; /* Off-White */
   --success-color: #006600; /* Green */
+  --success-shade:#5e855e;
   --error-color: #bb0000; /* Red */
+  --background-card:#F4F2F2;
+  --text-primary:#565555;
 
   /* Typography */
   --heading-font: "Montserrat", sans-serif;
@@ -31,10 +34,11 @@
 
 body {
   font-family: var(--body-font);
-  color: var(--primary-dark);
+  color: var(--text-primary);
   background-color: var(--primary-light);
   margin: 0;
   padding: 0;
+  font-size: 1rem;
 }
 
 h1,
@@ -45,38 +49,48 @@ h5,
 h6 {
   font-family: var(--heading-font);
   color: var(--primary-dark);
-  font-weight: 700;
   margin-bottom: 1rem;
 }
 
 h1 {
   font-size: var(--h1-size);
   line-height: var(--h1-line-height);
+  font-weight: 800;
 }
 
 h2 {
   font-size: var(--h2-size);
   line-height: var(--h2-line-height);
+  font-weight: 700;
+
 }
 
 h3 {
   font-size: var(--h3-size);
   line-height: var(--h3-line-height);
+  font-weight: 600;
+
 }
 
 h4 {
   font-size: var(--h4-size);
   line-height: var(--h4-line-height);
+  font-weight: 500;
+
 }
 
 h5 {
   font-size: var(--h5-size);
   line-height: var(--h5-line-height);
+  font-weight: 500;
+
 }
 
 h6 {
   font-size: var(--h6-size);
   line-height: var(--h6-line-height);
+  font-weight: 400;
+
 }
 
 .container {
