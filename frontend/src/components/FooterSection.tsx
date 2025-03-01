@@ -4,7 +4,7 @@ import { footerLinks,socialLinks } from "../utils";
 
 function FooterSection() {
   return (
-    <div className="w-full bg-[#F4F2F2] py-4 text-sm">
+    <div className="w-full bg-[#F4F2F2] py-4 text-sm mt-8">
       <div className="container flex flex-col md:flex-row justify-between gap-8 items-center" >
         <div>
           <p>&copy;2025 KenyAlysis</p>

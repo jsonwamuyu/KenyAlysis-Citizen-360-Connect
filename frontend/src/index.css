@@ -51,7 +51,7 @@ h5,
 h6 {
   font-family: var(--heading-font);
   color: var(--primary-dark);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 h1 {
@@ -102,11 +102,14 @@ h6 {
   height: 3rem;
   width:3rem;
 }
-.footer-links{
-  color:var(--hero-h1)
+.footer-links, .nav-links{
+  color:var(--hero-h6)
 }
-.footer-links:hover{
-  color:var(--hero-h6);
+a{
+  color: var(--success-color);
+}
+.footer-links:hover, .nav-links:hover{
+  color:var(--text-primary);
 }
 .sm-text{
   font-size: 0.875rem;
@@ -130,27 +133,8 @@ color: var(--hero-h1);
 }
 .hero p{
   color: var(--hero-h6);
-}
+} 
 
-.nav-link{
-  color: var(--hero-h1);
-  font-weight: 600;
-}
-.nav-link:hover,.active{
-  color:var(--hero-h6);
-}
-
-.navbar {
-  background-color: var(--primary-dark);
-  color: var(--primary-light);
-  /* Add padding, etc. */
-}
-
-.footer {
-  background-color: var(--primary-dark);
-  color: var(--primary-light);
-  /* Add padding, etc. */
-}
 
 .cta-primary {
   background-color: var(--success-color);

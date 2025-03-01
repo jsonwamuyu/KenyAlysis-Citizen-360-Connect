@@ -1,17 +1,17 @@
 export const CitizenNavbarData = [
-  {id:1, name:"Documents", url:"#documents"}
-  {id:2, name:"Active Polls", url:"#active-polls"}
-  {id:3, name:"Recent Reports", url:"#recent-reports"}
+  {id:1, name:"Documents", url:"#documents"},
+  {id:2, name:"Active Polls", url:"#active-polls"},
+  {id:3, name:"Recent Reports", url:"#recent-reports"},
   {id:4, name:"Announcements", url:"#announcements"}
 ]
 
-const GvtOfficialNavbarData = [
-  {id:1, name:"Recent Reports", url:"#recent-reports"}
+export const GvtOfficialNavbarData = [
+  {id:1, name:"Recent Reports", url:"#recent-reports"},
   {id:2, name:"Citizens Feedbacks", url:"#citizen-feedbacks"}
 ]
 
-const AdminNavbarData = [
-  {id:1, name:"Manage Users", url:"#manage-users"}
+export const AdminNavbarData = [
+  {id:1, name:"Manage Users", url:"#manage-users"},
   {id:2, name:"Create Users", url:"#create-users"}
 ]
 
