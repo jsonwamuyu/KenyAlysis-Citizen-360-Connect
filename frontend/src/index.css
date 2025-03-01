@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;500&display=swap");
 @import "tailwindcss";
 :root {
   /* Color Palette */
@@ -9,10 +9,12 @@
   --error-color: #bb0000; /* Red */
   --background-card:#F4F2F2;
   --text-primary:#565555;
+  --hero-h1: rgb(197, 197, 197);
+  --hero-h6:rgb(150, 150, 150);
 
   /* Typography */
   --heading-font: "Montserrat", sans-serif;
-  --body-font: "Open Sans", sans-serif;
+  --body-font: "Poppins", sans-serif;
 
   /* Font Sizes */
   --h1-size: 3rem;
@@ -93,10 +95,35 @@ h6 {
 
 }
 
+.sm-text{
+  font-size: 0.875rem;
+  line-height: 1.66;
+}
 .container {
   margin: 0 auto;
   max-width: 1020px;
   padding: 0 2rem;
+}
+
+.header{
+  background-image: url('./assets/images/hero-bg.png');
+  min-height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.hero h1{
+color: var(--hero-h1);
+}
+.hero p{
+  color: var(--hero-h6);
+}
+
+.nav-link{
+  color: var(--hero-h1);
+}
+.nav-link:hover,.active{
+  color:var(--hero-h6);
 }
 
 .navbar {
@@ -138,3 +165,5 @@ h6 {
 .cta-secondary:hover {
   background-color: #880000; /* Darker red */
 }
+
+ 

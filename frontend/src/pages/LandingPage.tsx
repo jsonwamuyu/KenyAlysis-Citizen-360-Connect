@@ -1,7 +1,11 @@
+import Hero from "../components/Hero"
+import Navbar from "../components/Navbar"
+
 function LandingPage(){
-    return(<div className="w-full">
+    return(<div className="w-full header ">
     <div className="container">
-        landing page
+        <Navbar/>
+        <Hero />
     </div>
     </div>)
 }
