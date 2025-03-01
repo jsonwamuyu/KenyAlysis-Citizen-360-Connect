@@ -1,7 +1,9 @@
+import AuthNavbar from "../components/AuthNavbar"
+
 function CitizenDashboard(){
     return(
         <div>
-            user dashboard
+            <AuthNavbar />
         </div>
     )
 }

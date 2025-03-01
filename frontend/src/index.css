@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Montserrat:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 :root {
   /* Color Palette */
@@ -95,6 +95,19 @@ h6 {
 
 }
 
+.bg-card{
+  background-color: var(--background-card);
+}
+.logo-img{
+  height: 3rem;
+  width:3rem;
+}
+.footer-links{
+  color:var(--hero-h1)
+}
+.footer-links:hover{
+  color:var(--hero-h6);
+}
 .sm-text{
   font-size: 0.875rem;
   line-height: 1.66;
@@ -107,7 +120,7 @@ h6 {
 
 .header{
   background-image: url('./assets/images/hero-bg.png');
-  min-height: 500px;
+  /* min-height: 600px; */
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -121,6 +134,7 @@ color: var(--hero-h1);
 
 .nav-link{
   color: var(--hero-h1);
+  font-weight: 600;
 }
 .nav-link:hover,.active{
   color:var(--hero-h6);
@@ -140,7 +154,7 @@ color: var(--hero-h1);
 
 .cta-primary {
   background-color: var(--success-color);
-  color: var(--primary-light);
+  color: var(--hero-h1);
   /* Other styles (padding, border-radius, etc.) */
   border: none; /* Reset border if needed */
   padding: 0.75rem 1.5rem; /* Example padding */

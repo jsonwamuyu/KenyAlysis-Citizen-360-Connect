@@ -1,3 +1,35 @@
+export const CitizenNavbarData = [
+  {id:1, name:"Documents", url:"#documents"}
+  {id:2, name:"Active Polls", url:"#active-polls"}
+  {id:3, name:"Recent Reports", url:"#recent-reports"}
+  {id:4, name:"Announcements", url:"#announcements"}
+]
+
+const GvtOfficialNavbarData = [
+  {id:1, name:"Recent Reports", url:"#recent-reports"}
+  {id:2, name:"Citizens Feedbacks", url:"#citizen-feedbacks"}
+]
+
+const AdminNavbarData = [
+  {id:1, name:"Manage Users", url:"#manage-users"}
+  {id:2, name:"Create Users", url:"#create-users"}
+]
+
+export const footerLinks = [
+  { id: 1, name: "Terms & Condition", url: "#" },
+  {
+    id: 2,
+    name: "Privacy policy",
+    url: "#",
+  },
+];
+
+export const socialLinks = [
+  {id:1, url:'', icon:"facebook"},
+  {id:2, url:'', icon:"twitter"},
+  {id:3, url:'', icon:"instagram"},
+]
+
 export const navbarData = [
   { id: 1, name: "About Us", url: "#about-us" },
   {
