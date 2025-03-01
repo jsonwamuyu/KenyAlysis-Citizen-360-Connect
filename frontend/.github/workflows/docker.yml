@@ -1,0 +1,16 @@
+# yaml
+name: Publish Docker Image
+on: 
+    push:
+        branches:
+            - main
+jobs:
+    build-and-push:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                name: Checkout
+                uses: actions/checkout@v4
+            -
+                name: Setup QEMU
+                uses: docker/setup-qemu-

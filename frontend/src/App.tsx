@@ -1,35 +1,33 @@
-import { useState } from "react";
-import "./App.css";
-import { Modal } from "./components/Modal";
-// import { FilterableProductTable } from "./components/FilterableProductTable";
-// import { myProductsData } from "./utils";
+import { BrowserRouter as Router, Navigate, Routes, Route } from "react-router-dom"
+import LandingPage from "./pages/LandingPage"
+import LoginPage from "./pages/LoginPage"
+import SignupPage from "./pages/SignupPage"
+import ResetPassword from "./pages/ResetPassword"
+import ForgotPassword from "./pages/ForgotPassword"
+import UserDashboard from "./pages/UserDashboard"
+import GovernmentOfficialDashboard from "./pages/GovernmentOfficialDashboard"
+import AdminDashboard from './pages/AdminDashBoard'
 
-function App() {
-  const [isOpen, setIsOpen] = useState(false);
-  const handleCloseModal = () => {
-    setIsOpen(false);
-  };
-  return (
-    <div className="max-w-[900px] py-[1rem] px-[2rem] mx-auto my-[0] bg-blue-50 min-h-screen w-full">
-      <div className=" gap-[0.5rem] justify-center items-center">
-        <h3>Welcome</h3>
-        <p className="md:max-w-sm">
-          Create a post today and i promise you will see the magic. I believe
-          everything you say is perfect.
-        </p>
-        <button
-          onClick={() => {
-            setIsOpen(true);
-          }}
-          className="mt-[1rem] cursor-pointer py-[0.75rem] px-[0.9rem] rounded-sm bg-theme"
-        >
-          Create a post{" "}
-        </button>
-        {/* <FilterableProductTable product={myProductsData} /> */}
-        {isOpen && <Modal handleCloseModal={handleCloseModal} />}
-      </div>
-    </div>
-  );
+
+function App(){
+  return(
+<Router>
+  <Routes>
+    {/* Auth routes */}
+    <Route path="/" element={<LandingPage/>} />
+    <Route path="/signup" element={<SignupPage/>} />
+    <Route path="/login" element={<LoginPage/>} />
+    <Route path="/reset-password" element={<ResetPassword/>}/>
+    <Route path="/forgot-password" element={<ForgotPassword/>}/>
+    
+    {/* dashboard routes */}
+    <Route path="/user" element={<UserDashboard/>}/>
+    <Route path="/government-official" element={<GovernmentOfficialDashboard/>}/>
+    <Route path="/admin" element={<AdminDashboard/>}/>
+
+  </Routes>
+</Router>
+  )
 }
 
-export default App;
+export default App

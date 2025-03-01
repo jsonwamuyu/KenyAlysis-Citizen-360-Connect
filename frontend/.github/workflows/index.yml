@@ -1,22 +1,76 @@
 name: Learn React Project
 on:
-    push:
-        branches:
-            - master
-    pull_request:
-        branches:
-            - master
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Get Code/Checkout Repo
-              uses: actions/checkout@v4
-            - name: Install Node js
-              uses: actions/setup-node@v4
-              with:
-                node-version: 18.x
-            - name: Install Dependencies using npm
-              run: npm install
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, window-latest, macOS-latest]
+    steps:
+      - name: Get Code/Checkout Repo
+        uses: actions/checkout@v4 # Means select an action
+      - name: Install Node js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - name: Install Dependencies using npm
+        run: npm install
+      - name: Build Application
+        run: npm run build # Assuming theres a build script in package.json
+      - name: upload build artifacts
+        uses: actions/upload-artifacts@v3
+        with:
+          name: Build artifacts #Name of the artifacts
+          path: build/ # path to the build folder or output
 
-              # add a comment
+  test: # job to run the test suit and validate the project
+    runs-on: ubuntu-latest #specify the runner type(Virtual machine) where the job will run
+    needs: build # this job depends on build job to complete so that it can run
+    steps:
+      - name: Checkout repository # descriptive label for a specific test
+        uses: actions/checkout@v4 # predefined Github action that checkout the repo's code
+
+      - name: Install Node js #Set up node js
+        uses: actions/setup-node@v4 #predefined github action that setup Node.j
+        with:
+          node-version: 18.x # Specify the node version to be installed
+
+      - name: Install dependencies with npm # Install dependencies using npm
+        run: npm install #install dependencies from package.json. -> Run a command-line command
+
+      - name: Run tests # Run the tests defined in the project
+        run: npm test # execute the test script using npm
+      - name: Download build artifacts
+        uses: actions/download-artifacts@v3
+        with:
+          name: build-artifacts # Download the artifacts from the 'build' job
+
+  deploy: # job to deploy the project after the tests has passed
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Node js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - name: Install dependencies
+        run: npm install
+      - name: Download artifacts
+        uses: actions/download-artifacts@v4
+        with:
+          name: build-artifacts # Download the artifacts from the 'build' job
+
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production environment"
+          npm run deploy # If you're deploying to AWS S3 or EC2, you would use the AWS CLI commands.
+
+# git commit -a -m “Added a roaring lion”
