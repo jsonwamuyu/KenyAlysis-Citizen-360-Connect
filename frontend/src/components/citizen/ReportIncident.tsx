@@ -1,15 +1,18 @@
-function RecentIncidents(){
-    return(<div>
-        <div className="container">
-            <h4>Report an incident</h4>
-            <form action="">
-                <input type="text" placeholder="Category"/>
-                <textarea name="" id=""></textarea>
-                <input type="text" placeholder="Medial Url" />
-                <input type="text" placeholder="Location"/>
-            </form>
+function ReportIncident() {
+  return (
+    <div>
+      <h3>Report an incident</h3>
+      <form action="" className="flex flex-col gap-8 w-full sm:max-w-md">
+        <input type="text" placeholder="Category" />
+        <textarea name="" id="" placeholder="Describe your incident"></textarea>
+        <input type="text" placeholder="Medial Url" />
+        <input type="text" placeholder="Location" />
+        <div>
+          <button className="cta-primary">Report incident</button>
         </div>
-    </div>)
+      </form>
+    </div>
+  );
 }
 
-export default RecentIncidents
+export default ReportIncident;

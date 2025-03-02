@@ -3,6 +3,7 @@ import FooterSection from "../components/FooterSection";
 import Documents from "../components/citizen/Documents";
 import ActivePolls from "../components/citizen/ActivePolls";
 import RecentIncidents from "../components/citizen/RecentIncidents";
+import GovernmentAnnouncements from "../components/citizen/GovernmentAnnouncements";
 
 function CitizenDashboard() {
   return (
@@ -11,6 +12,7 @@ function CitizenDashboard() {
       <Documents />
       <ActivePolls />
       <RecentIncidents/>
+      <GovernmentAnnouncements />
       <FooterSection />
     </div>
   );

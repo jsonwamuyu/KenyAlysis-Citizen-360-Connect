@@ -2,28 +2,25 @@
 @import "tailwindcss";
 :root {
   /* Color Palette */
-  --green-main-200:#A6F4C5;
---green-100:#D1FADF;
---green-50:#ECFDF3;
---green-25:#F6FEF9;
+  --green-main-200: #a6f4c5;
+  --green-100: #d1fadf;
+  --green-50: #ecfdf3;
+  --green-25: #f6fef9;
 
---gray-main-200:#E4E7EC;
---gray-100:#F2F4F7;
---gray-50:#F9FAFB;
---gray-:#FCFCFD;
-
-
-
+  --gray-main-200: #e4e7ec;
+  --gray-100: #f2f4f7;
+  --gray-50: #f9fafb;
+  --gray-: #fcfcfd;
 
   --primary-dark: #011627; /* Dark Navy */
   --primary-light: #fdfffc; /* Off-White */
   --success-color: #00a63e; /* Green */
-  --success-shade:#e6ffe6;
+  --success-shade: #e6ffe6;
   --error-color: #050505; /* Red */
-  --background-card:#F4F2F2;
-  --text-primary:#565555;
+  --background-card: #f4f2f2;
+  --text-primary: #565555;
   --hero-h1: rgb(197, 197, 197);
-  --hero-h6:rgb(150, 150, 150);
+  --hero-h6: rgb(150, 150, 150);
 
   /* Typography */
   --heading-font: "Montserrat", sans-serif;
@@ -77,65 +74,62 @@ h2 {
   font-size: var(--h2-size);
   line-height: var(--h2-line-height);
   font-weight: 700;
-
 }
 
 h3 {
   font-size: var(--h3-size);
   line-height: var(--h3-line-height);
   font-weight: 600;
-
 }
 
 h4 {
   font-size: var(--h4-size);
   line-height: var(--h4-line-height);
   font-weight: 500;
-
 }
 
 h5 {
   font-size: var(--h5-size);
   line-height: var(--h5-line-height);
   font-weight: 500;
-
 }
 
 h6 {
   font-size: var(--h6-size);
   line-height: var(--h6-line-height);
   font-weight: 400;
-
 }
 
-.document-card{
-background-color: var(--success-shade);
-border: 1px solid var(--success-shade);
+.document-card {
+  background-color: var(--gray-50);
+  border: 1px solid var(--gray-100);
 }
-.document-card:hover{
-background-color: var(--primary-light);
-cursor: pointer;
-scale: 102%;
-transition: all 0.015s ease-in-out;
+.document-card:hover {
+  background-color: var(--primary-light);
+  cursor: pointer;
+  scale: 102%;
+  transition: all 0.015s ease-in-out;
 }
 
-.bg-card{
+.bg-card {
   background-color: var(--background-card);
 }
-.logo-img{
+.logo-img {
   height: 3rem;
-  width:3rem;
+  width: 3rem;
 }
-.footer-links, .nav-links{
-  color:var(--hero-h6)
+.footer-links,
+.nav-links {
+  color: var(--hero-h6);
 }
 /* a{
   color: var(--success-color);
 } */
-.footer-links:hover, .nav-links:hover{
-  color:var(--text-primary);
+.footer-links:hover,
+.nav-links:hover {
+  color: var(--text-primary);
 }
-.sm-text{
+.sm-text {
   font-size: 0.875rem;
   line-height: 1.66;
 }
@@ -145,20 +139,28 @@ transition: all 0.015s ease-in-out;
   padding: 0 2rem;
 }
 
-.header{
-  background-image: url('./assets/images/hero-bg.png');
+.header {
+  background-image: url("./assets/images/hero-bg.png");
   /* min-height: 600px; */
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
-.hero h1{
-color: var(--hero-h1);
+.hero h1 {
+  color: var(--hero-h1);
 }
-.hero p{
+.hero p {
   color: var(--hero-h6);
-} 
+}
 
+form input, textarea {
+  padding: 10px 14px;
+  border-radius: 0.25rem;
+  border: 1px solid var(--gray-main-200);
+  background-color: white;
+  outline: none;
+  width:100%;
+}
 
 .cta-primary {
   background-color: var(--success-color);
@@ -171,7 +173,7 @@ color: var(--hero-h1);
 }
 
 .cta-primary:hover {
-  background-color: #004400; /* Darker green */
+  background-color: #1d971d; /* Darker green */
 }
 
 .cta-secondary {
@@ -187,5 +189,3 @@ color: var(--hero-h1);
 .cta-secondary:hover {
   background-color: #880000; /* Darker red */
 }
-
- 
