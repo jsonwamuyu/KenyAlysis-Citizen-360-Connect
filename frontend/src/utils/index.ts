@@ -1,3 +1,9 @@
+export const documents = [
+  {id:1, title:'Finance Bill 2024', description:"This one will make you think about the future."},
+  {id:2, title:'The Bill of Rights', description:"This one will make you think about the future."},
+  {id:3, title:'Finance Bill 2025', description:"This one will make you think about the future."},
+]
+
 export const CitizenNavbarData = [
   {id:1, name:"Documents", url:"#documents"},
   {id:2, name:"Active Polls", url:"#active-polls"},

@@ -2,11 +2,24 @@
 @import "tailwindcss";
 :root {
   /* Color Palette */
+  --green-main-200:#A6F4C5;
+--green-100:#D1FADF;
+--green-50:#ECFDF3;
+--green-25:#F6FEF9;
+
+--gray-main-200:#E4E7EC;
+--gray-100:#F2F4F7;
+--gray-50:#F9FAFB;
+--gray-:#FCFCFD;
+
+
+
+
   --primary-dark: #011627; /* Dark Navy */
   --primary-light: #fdfffc; /* Off-White */
-  --success-color: #006600; /* Green */
-  --success-shade:#5e855e;
-  --error-color: #bb0000; /* Red */
+  --success-color: #00a63e; /* Green */
+  --success-shade:#e6ffe6;
+  --error-color: #050505; /* Red */
   --background-card:#F4F2F2;
   --text-primary:#565555;
   --hero-h1: rgb(197, 197, 197);
@@ -95,6 +108,17 @@ h6 {
 
 }
 
+.document-card{
+background-color: var(--success-shade);
+border: 1px solid var(--success-shade);
+}
+.document-card:hover{
+background-color: var(--primary-light);
+cursor: pointer;
+scale: 102%;
+transition: all 0.015s ease-in-out;
+}
+
 .bg-card{
   background-color: var(--background-card);
 }
@@ -105,9 +129,9 @@ h6 {
 .footer-links, .nav-links{
   color:var(--hero-h6)
 }
-a{
+/* a{
   color: var(--success-color);
-}
+} */
 .footer-links:hover, .nav-links:hover{
   color:var(--text-primary);
 }
@@ -138,7 +162,7 @@ color: var(--hero-h1);
 
 .cta-primary {
   background-color: var(--success-color);
-  color: var(--hero-h1);
+  color: var(--primary-light);
   /* Other styles (padding, border-radius, etc.) */
   border: none; /* Reset border if needed */
   padding: 0.75rem 1.5rem; /* Example padding */

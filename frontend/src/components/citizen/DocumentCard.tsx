@@ -1,11 +1,18 @@
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function DocumentCard() {
+function DocumentCard({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
   return (
-    <div className="my-4">
-      <h5>Finance Bill 2025</h5>
-      {/* <Link to="/document/6">Get AI Summary</Link> */}
-      <p>This was passed to make Kenya a better place</p>
+    <div className="my-4 document-card rounded-md border-[1px] p-4 bg-white">
+      <Link to={`/document/&{id}`}>
+        <h5>{title}</h5>
+        <p className="text-sm">{description}</p>
+      </Link>
     </div>
   );
 }
