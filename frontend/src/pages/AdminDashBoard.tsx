@@ -1,20 +1,17 @@
+import AuthNavbar from "../components/AuthNavbar";
+import SearchBar from "../components/admin/SearchBar";
+import UserManagement from "../components/admin/UserManagement";
+import AddNewUser from "../components/admin/AddNewUser";
+import FooterSection from "../components/FooterSection";
+
 function AdminDashboard() {
   return (
     <div>
-      <h1>Heading one</h1>
-      <h2>Heading two</h2>
-      <h3>Heading three and rest</h3>
-      <h4>heading four</h4>
-      <h5>Heading five</h5>
-      <h6>Heading six</h6>
-      <p>
-        think of it as a paragraph and talk about it think of it as a paragraph
-        and talk about it
-      </p>
-      <p className="sm-text">
-        think of it as a paragraph and talk about it <br /> think of it as a paragraph
-        and talk about it
-      </p>
+      <AuthNavbar />
+      <SearchBar />
+      <UserManagement />
+      <AddNewUser />
+      <FooterSection />
     </div>
   );
 }

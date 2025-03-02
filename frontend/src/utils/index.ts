@@ -1,12 +1,12 @@
 export const pollData = [
   {
     id: 1,
-    title: "Abductions",
-    description: "Make your voice count",
+    title: "Do you want Finance Bill 2025",
+    description: "Make your choice today and have your voice on this matter.",
     expiry_date: "22-02-1994",
     option_yes: "Yes",
-    option_no: "",
-    option_not_sure: "",
+    option_no: "No",
+    option_not_sure: "Not Sure",
   },
 ];
 export const documents = [
