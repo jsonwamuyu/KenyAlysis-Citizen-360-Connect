@@ -3,14 +3,12 @@ const joi = require("joi");
 // Create a validation scheme to validate input
 
 exports.signupSchema = joi.object({
-  username:joi.string().required().max(50).min(5),
-  email: joi.string().min(5).max(60).required().email(),
-
-  password: joi
-    .string()
-    .required()
-    .min(8)
-    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")), // TODO: change this pattern
+  username: joi.string().min(3).max(30).required(),
+  email: joi.string().email().required(),
+  password: joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$')).required()
+    .messages({
+      'string.pattern.base': 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.'
+    })
 });
 
 exports.loginSchema = joi.object({

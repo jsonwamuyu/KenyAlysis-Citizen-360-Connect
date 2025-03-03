@@ -1,15 +1,13 @@
 const transport = require("../middlewares/sendEmail.js");
 const jwt = require("jsonwebtoken");
-// const sql = require("mssql");
 const bcrypt = require("bcryptjs");
-const {sql, poolPromise} = require("../config/db");
+const { sql, poolPromise } = require("../config/db");
 const sendEmail = require("../middlewares/sendEmail");
 const {
   signupSchema,
   loginSchema,
   changePasswordSchema,
 } = require("../middlewares/validator");
-// const transport = require("../middlewares/sendEmail");
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -81,7 +79,9 @@ const signup = async (req, res) => {
     // Validate input (assuming signupSchema is defined)
     const { error } = signupSchema.validate({ username, email, password });
     if (error) {
-      return res.status(400).json({ success: false, message: error.details[0].message });
+      return res
+        .status(400)
+        .json({ success: false, message: error.details[0].message });
     }
 
     // Get the connected pool
@@ -90,31 +90,42 @@ const signup = async (req, res) => {
     // Check if user already exists
     const checkUser = await pool
       .request()
-      .input('email', sql.NVarChar, email)
-      .query('SELECT * FROM Users WHERE email = @email');
+      .input("email", sql.NVarChar, email)
+      .query("SELECT * FROM Users WHERE email = @email");
 
     if (checkUser.recordset.length > 0) {
-      return res.status(400).json({ success: false, message: 'User already exists.' });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists." });
     }
 
     // Hash password and insert user
     const hashedPassword = await bcrypt.hash(password, 12);
     await pool
       .request()
-      .input('username', sql.NVarChar, username)
-      .input('email', sql.NVarChar, email)
-      .input('password', sql.NVarChar, hashedPassword)
+      .input("username", sql.NVarChar, username)
+      .input("email", sql.NVarChar, email)
+      .input("password", sql.NVarChar, hashedPassword)
       .query(
-        'INSERT INTO Users (username, email, password, role_id) VALUES (@username, @email, @password, 1)'
+        "INSERT INTO Users (username, email, password, role_id) VALUES (@username, @email, @password, 1)"
       );
 
+    // Send welcome email
+    const emailSubject = "Welcome to KenyAlysis!";
+    const emailText = `Hello ${username}, welcome to KenyAlysis. You can now participate in polls, report incidents, and access government documents!`;
+    const emailHtml = `<h2>Welcome, ${username}!</h2><p>We're excited to have you on board. Get started by exploring <a href="http://localhost:5173/">KenyAlysis</a>.</p>`;
+
+    await sendEmail(email, emailSubject, emailText, emailHtml);
+
     // Respond with success
-    res.status(201).json({ success: true, message: 'Account created successfully.' });
+    res
+      .status(201)
+      .json({ success: true, message: "Account created successfully." });
   } catch (error) {
     console.error(error); // Log full error for debugging
     res.status(500).json({
       success: false,
-      message: 'Internal server error',
+      message: "Internal server error",
       error: error.message,
     });
   }
@@ -142,7 +153,7 @@ const sendForgotPasswordEmail = async (req, res) => {
       process.env.RESET_PASSWORD_SECRET,
       { expiresIn: "10m" }
     );
-    console.log(resetToken)
+    console.log(resetToken);
 
     // Generate reset password link
     const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`;
@@ -156,18 +167,16 @@ const sendForgotPasswordEmail = async (req, res) => {
         <p>Click the link below to reset your password:</p>
         <a href="${resetLink}">Reset Password</a>
         <p>This link will expire in 10 minutes.</p>
-      `,
+      `
     );
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message:
-          "Password reset link sent to your email. Check your inbox. Don't forget to check spam folder.",
-      });
+    res.status(200).json({
+      success: true,
+      message:
+        "Password reset link sent to your email. Check your inbox. Don't forget to check spam folder.",
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -179,28 +188,44 @@ const sendForgotPasswordEmail = async (req, res) => {
 const resetPassword = async (req, res) => {
   const { token, newPassword, confirmPassword } = req.body;
   try {
-    if (!token) return res.status(400).json({ success: false, message: "Invalid or expired token." });
+    if (!token)
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid or expired token." });
 
     // Verify token
     const decoded = jwt.verify(token, process.env.RESET_PASSWORD_SECRET);
     const userId = decoded.userId;
 
     if (!newPassword || !confirmPassword)
-      return res.status(400).json({ success: false, message: "Both password fields are required." });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Both password fields are required.",
+        });
 
     if (newPassword !== confirmPassword)
-      return res.status(400).json({ success: false, message: "Passwords do not match." });
+      return res
+        .status(400)
+        .json({ success: false, message: "Passwords do not match." });
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);
-    
+
     const pool = await db;
-    await pool.request()
+    await pool
+      .request()
       .input("id", sql.Int, userId)
       .input("password", sql.NVarChar(255), hashedPassword)
       .query("UPDATE Users SET password = @password WHERE id = @id");
 
-    res.status(200).json({ success: true, message: "Password reset successful. Please log in with your new password." });
-
+    res
+      .status(200)
+      .json({
+        success: true,
+        message:
+          "Password reset successful. Please log in with your new password.",
+      });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -209,13 +234,6 @@ const resetPassword = async (req, res) => {
     });
   }
 };
-
-
-
-
-
-
-
 
 const sendVerificationCode = async (req, res) => {
   const { email } = req.body;
@@ -335,7 +353,7 @@ module.exports = {
   changePassword,
   verifyVerificationCode,
   sendForgotPasswordEmail,
-  resetPassword
+  resetPassword,
 };
 
 // exports.signup = async (req, res) => {

@@ -21,19 +21,29 @@ function LoginPage() {
               className="border-[1px] p-2 rounded-sm border-gray-200"
             />
             <div className="flex flex-row justify-between gap-8 items-center">
-              <div>
-                <input type="checkbox" name="" id="" className="mr-2 bg-green-600" />
-                Remember Me
+              <div className="flex flex-row gap-2 items-center">
+                <div><input
+                  type="checkbox"
+                  name=""
+                  id=""
+                  className=" bg-green-600"
+                /></div>
+                <p className="">Remember Me</p>
               </div>
 
-              <Link to="/forgot-password" className="text-green-600">Forgot Password?</Link>
+              <Link to="/forgot-password" className="text-green-600">
+                Forgot Password?
+              </Link>
             </div>
             <button className="cta-primary mt-4">Login</button>
           </form>
           <div className="mt-8 text-center text-sm">
-          Have no account?
-          <Link to="/signup" className="text-green-600"> Sign Up</Link>
-        </div>
+            Have no account?
+            <Link to="/signup" className="text-green-600">
+              {" "}
+              Sign Up
+            </Link>
+          </div>
         </div>
       </div>
     </div>
