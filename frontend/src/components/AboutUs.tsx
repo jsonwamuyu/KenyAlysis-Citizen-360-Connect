@@ -1,6 +1,6 @@
 function AboutUs(){
     return(
-        <div className="w-full">
+        <div className="w-full" id="about-us">
             <div className="container">
                 <h4>About KenyAlysis</h4>
                 <p className="sm:max-w-2xl">KenyAlysis is a platform designed to bridge the gap between citizens

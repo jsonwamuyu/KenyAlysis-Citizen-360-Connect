@@ -4,9 +4,6 @@ function Documents() {
   return (
     <div className="w-full my-8" id="documents">
       <div className="container">
-        <h6>
-          Welcome <strong>ZHAVIA</strong>
-        </h6>
         <div className="py-8">
           <h6 className="font-bold">
             <strong>INSTRUCTIONS:</strong>

@@ -100,7 +100,7 @@ h6 {
   font-weight: 400;
 }
 
-.document-card {
+/* .document-card {
   background-color: var(--gray-50);
   border: 1px solid var(--gray-100);
 }
@@ -109,7 +109,7 @@ h6 {
   cursor: pointer;
   scale: 102%;
   transition: all 0.015s ease-in-out;
-}
+} */
 
 .bg-card {
   background-color: var(--background-card);
@@ -118,15 +118,17 @@ h6 {
   height: 3rem;
   width: 3rem;
 }
-.footer-links,
-.nav-links {
+.nav-link{
+  color: var(--primary-light);
+}
+.footer-links {
   color: var(--hero-h6);
 }
 /* a{
   color: var(--success-color);
 } */
 .footer-links:hover,
-.nav-links:hover {
+.nav-link:hover {
   color: var(--text-primary);
 }
 .sm-text {

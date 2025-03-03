@@ -5,6 +5,24 @@ const updateRoleSchema = Joi.object({
     role_id: Joi.number().integer().valid(1, 2, 3).required()
 });
 
+
+const getUserProfile = async (req, res) => {
+    try {
+      const pool = await poolPromise;
+      const user = await pool.request()
+        .input("userId", sql.Int, req.user.userId)
+        .query("SELECT id, username, email, role_id FROM Users WHERE id = @userId");
+  
+      if (user.recordset.length === 0) {
+        return res.status(404).json({ success: false, message: "User not found." });
+      }
+  
+      res.json({ success: true, user: user.recordset[0] });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Internal server error", error: error.message });
+    }
+  };
+  
 const getAllUsers = async (req, res) => {
     try {
       const pool = await poolPromise;
@@ -75,4 +93,4 @@ const deleteUser = async (req, res) => {
 };
 
 
-module.exports = {deleteUser, updateUserRole, getAllUsers, getUserById}
+module.exports = {deleteUser, updateUserRole, getAllUsers, getUserById, getUserProfile}

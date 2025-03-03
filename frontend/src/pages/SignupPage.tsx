@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import API from "../utils/API/axiosInstance";
 
 function SignupPage() {
   
@@ -42,7 +43,7 @@ function SignupPage() {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/signup", {
+      const response = await API.post("/auth/signup", {
         username,
         email,
         password,

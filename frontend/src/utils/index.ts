@@ -94,13 +94,10 @@ export const socialLinks = [
 
 export const navbarData = [
   { id: 1, name: "About Us", url: "#about-us" },
-  {
-    id: 1,
-    name: "Testimonials",
-    url: "#testimonials",
-  },
+  { id: 2, name: "Testimonials", url: "#testimonials" }, // Changed id from 1 to 2
   { id: 3, name: "Contact Us", url: "#contact-us" },
 ];
+
 export const myProductsData = [
   { category: "Fruits", price: "$1", stocked: true, name: "Apple", id: 1 },
   {

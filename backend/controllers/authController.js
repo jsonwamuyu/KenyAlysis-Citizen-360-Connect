@@ -25,7 +25,7 @@ const login = async (req, res) => {
       .request()
       .input("email", sql.VarChar(255), email)
       .query(
-        "SELECT id, email, password, role_id FROM Users WHERE email=@email"
+        "SELECT id, username, email, password, role_id FROM Users WHERE email=@email"
       );
     if (user.recordset.length === 0)
       return res
@@ -45,7 +45,7 @@ const login = async (req, res) => {
       {
         userId: user.recordset[0].id,
         email: user.recordset[0].email,
-        verified: user.recordset[0].verified,
+        role_id: user.recordset[0].role_id,
       },
       process.env.TOKEN_SECRET,
       { expiresIn: "8h" }
@@ -55,7 +55,13 @@ const login = async (req, res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
       })
-      .json({ success: true, token, message: "Logged in successfully." });
+      .json({
+        username: user.recordset[0].username,
+        success: true,
+        token,
+        role_id: user.recordset[0].role_id,
+        message: "Logged in successfully.",
+      });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -198,12 +204,10 @@ const resetPassword = async (req, res) => {
     const userId = decoded.userId;
 
     if (!newPassword || !confirmPassword)
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Both password fields are required.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Both password fields are required.",
+      });
 
     if (newPassword !== confirmPassword)
       return res
@@ -219,13 +223,11 @@ const resetPassword = async (req, res) => {
       .input("password", sql.NVarChar(255), hashedPassword)
       .query("UPDATE Users SET password = @password WHERE id = @id");
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message:
-          "Password reset successful. Please log in with your new password.",
-      });
+    res.status(200).json({
+      success: true,
+      message:
+        "Password reset successful. Please log in with your new password.",
+    });
   } catch (error) {
     res.status(500).json({
       success: false,

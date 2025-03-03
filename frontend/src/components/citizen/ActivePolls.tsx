@@ -13,7 +13,7 @@ function ActivePolls() {
         </p>
         <div>
           {pollData.map((poll) => {
-            return <PollCard {...poll} />;
+            return <PollCard key={poll.id} {...poll} />;
           })}
         </div>
 

@@ -12,4 +12,8 @@ router.get('/:id', userController.getUserById);
 router.patch('/:id/role', authenticate, authorizeAdmin, userController.updateUserRole);
 router.delete('/:id', authenticate, authorizeAdmin, userController.deleteUser);
 
+
+// Get logged-in user details
+// router.get('/profile', authenticate, userController.getProfile)
+
 module.exports = router;
