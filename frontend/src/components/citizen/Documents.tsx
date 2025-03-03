@@ -14,7 +14,7 @@ function Documents() {
             questions.
           </p>
         </div>
-        <div className="mb-16 flex-col flex md:flex-row gap-4">
+        <div className="mb-16 grid grid-cols-1 gap-4">
           {documents.map((doc) => {
             return <DocumentCard key={doc.id} {...doc} />;
           })}

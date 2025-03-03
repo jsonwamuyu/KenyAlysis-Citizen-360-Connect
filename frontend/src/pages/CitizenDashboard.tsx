@@ -17,26 +17,6 @@ function CitizenDashboard() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const response = await API.get("/user/citizen");
-  //       console.log(response);
-  //        // fetch user details
-  //       setUser(response.data.user);
-  //     } catch (err) {
-  //       console.log(err);
-  //       setError("Failed to fetch users data");
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
-
-  // if (isLoading) return <p className="text-gray-500">Loading...</p>;
-  // if (error) return <p className="text-red-500">{error}</p>;
-
   return (
     <div>
       <AuthNavbar />

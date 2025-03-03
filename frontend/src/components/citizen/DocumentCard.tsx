@@ -1,20 +1,16 @@
 import { Link } from "react-router-dom";
 
-function DocumentCard({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}) {
+function DocumentCard({ title }: { title: string; description: string }) {
   return (
-    <div className="my-4  rounded-md border-[1px] p-4 bg-gray-100 border-gray-100 hover:bg-white
-    transition-all ease-in-out duration-100">
-      <Link to={`/document/&{id}`}>
-        <h5>{title}</h5>
-        <p className="text-sm">{description}</p>
-      </Link>
-    </div>
+    <Link
+      to={`/document/&{id}`}
+      className="flex flex-row gap-8 justify-between items-center py-4 border-gray-200 border-b-[1px]"
+    >
+      <h5>{title}</h5>
+      <button className="p-2 rounded-sm bg-black text-white text-sm">
+        Get AI Summary
+      </button>
+    </Link>
   );
 }
 

@@ -7,7 +7,8 @@ function AiChat() {
       <div className="flex flex-row items-center justify-between">
         <h5>The Constitution of Kenya</h5>
         <div>
-          <Link to="/" className="text-green-500 underline"> Download PDF</Link>
+          <Link to="#" className="text-green-500 flex flex-row items-center gap-2">
+          <ion-icon name="download"></ion-icon> Download PDF</Link>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
