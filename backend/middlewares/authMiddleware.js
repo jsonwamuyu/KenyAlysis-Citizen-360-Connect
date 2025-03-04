@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const db = require('../config/db.js');
+const {sql, poolPromise} = require('../config/db.js');
 
 const authenticate = async (req, res, next) => {
     try {
@@ -17,34 +17,42 @@ const authenticate = async (req, res, next) => {
 const authorizeGovOfficial = async (req, res, next) => {
     try {
         const userId = req.user.userId;
-        const result = await db.request()
-            .input('id', db.Int, userId)
-            .query('SELECT role_id FROM Users WHERE id = @id');
+        const pool = await poolPromise; // Ensure the database connection
+
+        const result = await pool.request()
+            .input("id", sql.Int, userId)
+            .query("SELECT role_id FROM Users WHERE id = @id");
 
         if (!result.recordset.length || result.recordset[0].role_id !== 2) {
-            return res.status(403).json({ success: false, message: 'Government officials only.' });
+            return res.status(403).json({ success: false, message: "Government officials only." });
         }
         next();
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal server error.', error: error.message });
+        console.error("❌ Error in authorizeGovOfficial:", error);
+        res.status(500).json({ success: false, message: "Internal server error.", error: error.message });
     }
 };
+
 
 const authorizeAdmin = async (req, res, next) => {
     try {
         const userId = req.user.userId;
-        const result = await db.request()
-            .input('id', db.Int, userId)
-            .query('SELECT role_id FROM Users WHERE id = @id');
+        const pool = await poolPromise; // Ensure the database connection
+
+        const result = await pool.request()
+            .input("id", sql.Int, userId)
+            .query("SELECT role_id FROM Users WHERE id = @id");
 
         if (!result.recordset.length || result.recordset[0].role_id !== 3) {
-            return res.status(403).json({ success: false, message: 'Admins only.' });
+            return res.status(403).json({ success: false, message: "Admins only." });
         }
         next();
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal server error.', error: error.message });
+        console.error("❌ Error in authorizeAdmin:", error);
+        res.status(500).json({ success: false, message: "Internal server error.", error: error.message });
     }
 };
+
 
 
 module.exports = { authenticate, authorizeGovOfficial, authorizeAdmin };

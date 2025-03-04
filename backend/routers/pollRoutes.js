@@ -5,19 +5,21 @@ const { authenticate, authorizeAdmin } = require('../middlewares/authMiddleware.
 const router = express.Router();
 
 // Create a new poll (Admin Only)
-router.post('/', authenticate, authorizeAdmin, pollController.createPoll);
+// router.post('/', authenticate, authorizeAdmin, pollController.createPoll);
+router.post('/create-poll',authenticate,authorizeAdmin, pollController.createPoll);
 
 // Get all active polls
-router.get('/', pollController.getAllPolls);
+router.get('/get-all-polls', authenticate, pollController.getAllPolls);
 
 // Get a specific poll by ID
-router.get('/:id', pollController.getPollById);
+router.get('/:id', authenticate,pollController.getPollById);
 
 // Vote on a poll
 router.post('/:id/vote', authenticate, pollController.voteOnPoll);
+router.get('/:id/has-voted', authenticate, pollController.hasUserVoted);
 
 // Get poll results (vote count)
-router.get('/:id/results', pollController.getPollResults);
+router.get('/:id/results', authenticate,pollController.getPollResults);
 
 // Delete a poll (Admin Only)
 router.delete('/:id', authenticate, authorizeAdmin, pollController.deletePoll);
