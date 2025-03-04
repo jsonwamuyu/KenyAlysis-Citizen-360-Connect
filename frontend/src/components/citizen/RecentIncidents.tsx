@@ -22,7 +22,6 @@ function RecentIncidents() {
 
         // Decode token to get user ID
         const decodedToken = jwtDecode(token);
-        console.log("Decoded Token:", decodedToken); // Debugging line
 
         const response = await API.get(
           "http://localhost:8080/api/incidents/my-incidents",

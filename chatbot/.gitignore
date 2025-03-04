@@ -1,0 +1,32 @@
+# 🚀 Ignore Environment Files (Secrets & Config)
+.env
+*.env
+
+# 🚀 Ignore Python Virtual Environment
+venv/
+.env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 🚀 Ignore Logs & Temporary Files
+*.log
+logs/
+debug.log
+nohup.out
+
+# 🚀 Ignore Cache & Compiled Files
+.cache/
+*.sqlite3
+*.db
+
+# 🚀 Ignore PyCharm / VSCode / Jupyter / MacOS / Windows System Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 🚀 Ignore Uploaded & Processed Documents
+uploads/
+processed_files/
