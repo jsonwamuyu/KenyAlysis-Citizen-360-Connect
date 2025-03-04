@@ -50,7 +50,25 @@ const {sql, poolPromise} = require("../config/db");
 };
 
 // Get all incidents specifically for the logged in user.
+const getMyIncidents = async(req, res) => {
+  try {
+    const user_id = req.user.userId; // Extract user ID from token
 
+    const pool = await poolPromise;
+    const result = await pool.request()
+      .input("user_id", sql.Int, user_id)
+      .query("SELECT * FROM IncidentReports WHERE user_id = @user_id");
+
+    if (result.recordset.length === 0) {
+      return res.status(404).json({ success: false, message: "No incidents found." });
+    }
+
+    res.status(200).json({ success: true, incidents: result.recordset });
+
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error", error: error.message });
+  }
+};
 const getAllIncidents = async (req, res) => {
     try {
       const pool = await poolPromise; // Await the poolPromise
@@ -165,4 +183,4 @@ const deleteIncident = async (req, res) => {
     }
   };
   
-module.exports = {deleteIncident, updateIncidentStatus, getAllIncidents, getIncidentById, reportIncident}
+module.exports = {deleteIncident, updateIncidentStatus, getAllIncidents, getIncidentById, reportIncident, getMyIncidents}

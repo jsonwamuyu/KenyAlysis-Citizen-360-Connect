@@ -8,6 +8,7 @@ router.post('/report-incident', authenticate, incidentController.reportIncident)
 
 // router.get('/get-all-incidents', authenticate, authorizeGovOfficial, incidentController.getAllIncidents);
 
+router.get('/my-incidents', authenticate, incidentController.getMyIncidents)
 
 router.get('/get-all-incidents', incidentController.getAllIncidents);
 

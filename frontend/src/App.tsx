@@ -25,6 +25,7 @@ function App() {
         {/* Protected Routes */}
         <Route element={<ProtectedRoute allowedRoles={[1]} />}>
           <Route path="/user/citizen" element={<CitizenDashboard />} />
+          {/* <Route path="/user/citizen/"/> */}
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={[2]} />}>

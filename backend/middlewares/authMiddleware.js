@@ -36,6 +36,10 @@ const authorizeGovOfficial = async (req, res, next) => {
 
 const authorizeAdmin = async (req, res, next) => {
     try {
+        console.log("🔍 Checking admin access...");
+        console.log("🛠 Extracted User:", req.user); // Debugging line
+
+
         const userId = req.user.userId;
         const pool = await poolPromise; // Ensure the database connection
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function UserCard() {
   return (
     <div
-      className="flex flex-row gap-8 items-center w-full sm:max-w-lg p-2 border-[1px] border-gray-100
+      className="flex flex-row gap-8 items-center w-full p-2 border-[1px] border-gray-100
      hover:bg-white transition-all ease-in-out bg-gray-100/50"
     >
       <div className="w-10 h-10 rounded-full relative">

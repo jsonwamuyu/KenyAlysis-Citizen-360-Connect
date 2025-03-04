@@ -3,12 +3,12 @@ function AddNewUser() {
     <div className="w-full my-24">
       <div className="container">
         <h3>Add New User</h3>
-        <form action="" className="flex flex-col gap-8 w-full sm:max-w-lg" >
+        <form action="" className="flex flex-col gap-8 w-full" >
           <input type="text" placeholder="Username" />
           <input type="email" name="" id="" placeholder="Email Address" />
-          <div>
+          {/* <div> */}
             <button className="cta-primary">Add User</button>
-          </div>
+          {/* </div> */}
         </form>
       </div>
     </div>
