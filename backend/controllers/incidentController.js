@@ -5,37 +5,51 @@ const {sql, poolPromise} = require("../config/db");
 
 
  const reportIncident = async (req, res) => {
-    try {
-      // Validate request body
-      const { error } = incidentSchema.validate(req.body);
-      if (error) {
-        return res.status(400).json({ success: false, message: error.details[0].message });
-      }
-  
-      const { user_id, category, description, media_url, location } = req.body;
-      const pool = await poolPromise; // Await the poolPromise
-  
-      await pool
-        .request()
-        .input('user_id', sql.Int, user_id)
-        .input('category', sql.NVarChar, category)
-        .input('description', sql.NVarChar, description)
-        .input('media_url', sql.NVarChar, media_url)
-        .input('location', sql.NVarChar, location)
-        .query(
-          'INSERT INTO IncidentReports (user_id, category, description, media_url, location) VALUES (@user_id, @category, @description, @media_url, @location)'
-        );
-  
-      res.status(201).json({ success: true, message: 'Incident reported successfully' });
-    } catch (error) {
-      console.error(error); // Log the full error for debugging
-      res.status(500).json({
-        success: false,
-        message: 'Internal server error',
-        error: error.message,
-      });
+  console.log("🚀 Entering reportIncident function...");
+
+  try {
+    const user_id = req.user?.userId; // Extract user ID from authenticated request
+    console.log("✅ Authenticated User ID:", user_id);
+
+    if (!user_id) {
+      return res.status(401).json({ success: false, message: "Unauthorized: No user ID found." });
     }
-  };
+
+    // Validate request body
+    const { error } = incidentSchema.validate(req.body);
+    if (error) {
+      console.error("❌ Validation Error:", error.details[0].message);
+      return res.status(400).json({ success: false, message: error.details[0].message });
+    }
+
+    // Extract fields
+    const { category, description, media_url, location } = req.body;
+    console.log("📩 Request Payload:", req.body);
+
+    const pool = await poolPromise; // Await database connection
+
+    await pool
+      .request()
+      .input("user_id", sql.Int, user_id)
+      .input("category", sql.NVarChar(100), category)
+      .input("description", sql.NVarChar(sql.MAX), description)
+      .input("media_url", sql.NVarChar(500), media_url)
+      .input("location", sql.NVarChar(255), location)
+      .input("status", sql.NVarChar(50), "Pending")
+      .query(
+        `INSERT INTO IncidentReports (user_id, category, description, media_url, location, status, created_at) 
+         VALUES (@user_id, @category, @description, @media_url, @location, @status, GETDATE())`
+      );
+
+    console.log("✅ Incident successfully reported!");
+    res.status(201).json({ success: true, message: "Incident reported successfully" });
+  } catch (error) {
+    console.error("❌ Error in reportIncident:", error.message);
+    res.status(500).json({ success: false, message: "Internal server error", error: error.message });
+  }
+};
+
+// Get all incidents specifically for the logged in user.
 
 const getAllIncidents = async (req, res) => {
     try {

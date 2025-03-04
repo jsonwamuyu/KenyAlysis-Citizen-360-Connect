@@ -4,8 +4,7 @@ const { authenticate, authorizeGovOfficial } = require('../middlewares/authMiddl
 
 const router = express.Router();
 
-// router.post('/report-incident', authenticate, incidentController.reportIncident);
-router.post('/report-incident', incidentController.reportIncident);
+router.post('/report-incident', authenticate, incidentController.reportIncident);
 
 // router.get('/get-all-incidents', authenticate, authorizeGovOfficial, incidentController.getAllIncidents);
 

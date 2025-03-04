@@ -1,8 +1,12 @@
 import IncidentCard from "./IncidentCard";
 import ReportIncident from "./ReportIncident";
 import { incidentData } from "../../utils";
+import { useState } from "react";
 
 function RecentIncidents() {
+
+  const {} = useState("")
+
   return (
     <div className="w-full my-24" id="recent-reports">
       <div className="container">
