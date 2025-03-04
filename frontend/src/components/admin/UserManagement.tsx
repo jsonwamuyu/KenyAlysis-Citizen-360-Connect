@@ -57,7 +57,7 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container my-[4rem]">
       <h3 className="font-bold mb-4">Manage Users</h3>
 
       {loading && <p className="text-gray-600">Loading users...</p>}
@@ -65,7 +65,7 @@ const UserManagement = () => {
       {successMessage && <p className="text-green-500">{successMessage}</p>}
 
       {!loading && users.length > 0 && (
-        <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <table className="w-full bg-white shadow-md rounded-lg overflow-hidden pt-8">
           <thead className="bg-gray-200 text-gray-700">
             <tr>
               <th className="py-2 px-4 text-left">#</th>

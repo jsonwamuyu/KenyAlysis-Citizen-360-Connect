@@ -1,5 +1,3 @@
-// import logo from "../assets/images/kenaylsis-logo.png";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../utils/API/axiosInstance";
@@ -89,8 +87,8 @@ function LoginPage() {
         <div className="flex flex-col min-w-md bg-white shadow-sm p-8 rounded-sm">
           <h2 className="pb-4">Login</h2>
 
-          {error && <p className="text-red-400 text-sm pb-2 max-w-sm">{error}</p>}
-          {success && <p className="text-green-500 text-sm pb-2 max-w-sm">{success}</p>}
+         {error && <p className="text-red-400 text-sm pb-4 max-w-sm">{error}</p>}
+         {success && <p className="text-green-500 text-sm pb-4 max-w-sm">{success}</p>}
 
           <form onSubmit={handleLogin} className="max-w-md flex flex-col gap-4 text-sm">
             <input
