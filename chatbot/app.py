@@ -1,8 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
 from routes.chatbot import chatbot_bp
 import os
 
 app = Flask(__name__)
+
+# Enable CORS for all routes
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
 # Ensure the uploads folder exists
 UPLOAD_FOLDER = "uploads"

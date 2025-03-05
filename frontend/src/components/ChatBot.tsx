@@ -11,7 +11,7 @@ const Chatbot = () => {
 
   // Handle File Selection
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
+    if (event.target.files && event.target.files.length > 0) {
       setFile(event.target.files[0]);
     }
   };
@@ -22,19 +22,25 @@ const Chatbot = () => {
       setError("Please select a file first.");
       return;
     }
-    
+  
     setLoading(true);
     setError(null);
     setSummary(null);
-
+  
     const formData = new FormData();
     formData.append("file", file);
-
+  
     try {
-      const response = await axios.post("http://localhost:5001/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
+      const response = await axios.post(
+        "http://127.0.0.1:5001/chatbot/upload", // ✅ Ensure this is correct
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+  
       setSummary(response.data.summary);
     } catch (err) {
       setError("Failed to upload document.");
@@ -42,7 +48,6 @@ const Chatbot = () => {
       setLoading(false);
     }
   };
-
   // Handle Question Submission
   const handleAskQuestion = async () => {
     if (!question.trim()) {
@@ -55,7 +60,7 @@ const Chatbot = () => {
     setAnswer(null);
 
     try {
-      const response = await axios.post("http://localhost:5001/ask", { question });
+      const response = await axios.post("http://127.0.0.1:5001/chatbot/ask", { question });
 
       setAnswer(response.data.answer);
     } catch (err) {
@@ -66,18 +71,18 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-md">
+    <div className="container p-6 bg-white shadow-lg rounded-md">
       <h2 className="text-xl font-semibold mb-4">Chatbot Assistant</h2>
 
       {/* File Upload */}
       <div className="mb-4">
-        <input type="file" accept=".pdf,.docx,.txt" onChange={handleFileChange} />
+        <input type="file" accept=".pdf,.docx,.txt" className="text-green-500 cursor-pointer" onChange={handleFileChange} />
         <button 
           onClick={handleUpload} 
-          className="bg-blue-500 text-white px-4 py-2 mt-2 rounded hover:bg-blue-600 cursor-pointer"
+          className="bg-black/70 text-white px-4 py-2 mt-2 rounded hover:bg-black cursor-pointer"
           disabled={loading}
         >
-          {loading ? "Uploading..." : "Upload Document"}
+          {loading ? "Summarizing..." : "Get AI Summary"}
         </button>
       </div>
 
