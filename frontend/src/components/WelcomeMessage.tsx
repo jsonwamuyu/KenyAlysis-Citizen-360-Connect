@@ -10,7 +10,7 @@ function WelcomeMessage({ username }: WelcomeMessageProps) {
           Hello,{" "}
           <span className="font-semibold text-green-600"> {username}! </span>👋
         </h3>
-        <p className="text-sm">Welcome to your Citizen Dashboard.</p>
+        <p className="text-sm">Welcome back! We are glad to have you.</p>
       </div>
     </div>
   );

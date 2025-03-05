@@ -1,4 +1,3 @@
-import AuthNavbar from "../components/AuthNavbar";
 import FooterSection from "../components/FooterSection";
 import Documents from "../components/citizen/Documents";
 import ActivePolls from "../components/citizen/ActivePolls";
@@ -6,6 +5,7 @@ import RecentIncidents from "../components/citizen/RecentIncidents";
 import GovernmentAnnouncements from "../components/citizen/GovernmentAnnouncements";
 import WelcomeMessage from "../components/WelcomeMessage";
 import Chatbot from "../components/ChatBot";
+import CitizenNavbar from "../components/citizen/CitizenNavbar";
 
 function CitizenDashboard() {
 
@@ -13,10 +13,10 @@ function CitizenDashboard() {
 
   return (
     <div>
-      <AuthNavbar />
+      <CitizenNavbar />
       <WelcomeMessage username={username}/>
-      <Documents />
       <Chatbot />
+      <Documents />
       <ActivePolls />
       <RecentIncidents />
       <GovernmentAnnouncements />

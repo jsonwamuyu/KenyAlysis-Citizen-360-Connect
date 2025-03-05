@@ -57,7 +57,7 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="container my-[4rem]">
+    <div className="container my-[4rem]" id="manage-users">
       <h3 className="font-bold mb-4">Manage Users</h3>
 
       {loading && <p className="text-gray-600">Loading users...</p>}

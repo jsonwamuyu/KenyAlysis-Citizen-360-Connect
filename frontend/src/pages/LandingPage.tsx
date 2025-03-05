@@ -14,12 +14,8 @@ function LandingPage() {
           <Hero />
         </div>
       </div>
-      {/* Download government documents */}
       <GovernmentDocuments />
-
-      {/* About KenyAlysis */}
       <AboutUs />
-      {/* Testimonials */}
       <Testimonials />
 
       <FooterSection />

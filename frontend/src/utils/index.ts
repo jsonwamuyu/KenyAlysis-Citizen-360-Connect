@@ -75,6 +75,7 @@ export const GvtOfficialNavbarData = [
 export const AdminNavbarData = [
   { id: 1, name: "Manage Users", url: "#manage-users" },
   { id: 2, name: "Create Users", url: "#create-users" },
+  { id: 3, name: "Create Poll", url: "#create-poll" },
 ];
 
 export const footerLinks = [

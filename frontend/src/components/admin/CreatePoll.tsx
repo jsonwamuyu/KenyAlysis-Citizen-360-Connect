@@ -46,7 +46,7 @@ const CreatePoll = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container" id="create-poll">
       <h3 className=" font-semibold mb-4">Create a New Poll</h3>
 
       {message && <p className="text-green-600">{message}</p>}

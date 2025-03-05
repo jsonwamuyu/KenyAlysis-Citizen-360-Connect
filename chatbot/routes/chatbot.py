@@ -85,7 +85,7 @@ def ask_question():
         return jsonify({"error": f"OpenAI request failed: {str(e)}"}), 500
 
 
-# 📌 Utility Functions
+#  Utility Functions
 def extract_text_from_pdf(pdf_path):
     """Extract text from a PDF file."""
     try:
