@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import API from "../../utils/API/axiosInstance";
 
 const UserManagement = () => {
-  const [users, setUsers] = useState([]);
+
+  interface UserProps{
+    id:number,
+    username:string,
+    email:string,
+    role_id:number
+  }
+  const [users, setUsers] = useState<UserProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -33,7 +40,7 @@ const UserManagement = () => {
     }
   };
 
-  const handleRoleChange = async (userId, newRoleId) => {
+  const handleRoleChange = async (userId:number, newRoleId:string) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -91,7 +98,7 @@ const UserManagement = () => {
                 <td className="py-2 px-4">
                   <select
                     className="border p-2 rounded-md"
-                    onChange={(e) => handleRoleChange(user.id, Number(e.target.value))}
+                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
                     value={user.role_id}
                   >
                     <option value="1">Citizen</option>
