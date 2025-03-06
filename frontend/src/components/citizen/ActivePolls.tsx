@@ -3,7 +3,7 @@ import PollCard from "./PollCard";
 
 const Polls = () => {
   interface Poll {
-    id: string;
+    id: number;
     title: string;
     description: string;
     expiry_date: string;

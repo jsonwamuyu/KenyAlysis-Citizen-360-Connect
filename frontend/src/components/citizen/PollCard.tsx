@@ -9,7 +9,7 @@ interface PollCardProps{
   option_yes:string,
   option_no:string,
   option_not_sure:string,
-  hasVoted:string,
+  hasVoted:boolean,
 }
 const PollCard = ({
   id,
@@ -21,7 +21,7 @@ const PollCard = ({
   option_not_sure,
   hasVoted,
 }:PollCardProps) => {
-  const [voted, setVoted] = useState(hasVoted === "true");
+  const [voted, setVoted] = useState(hasVoted === true);
   const [votes, setVotes] = useState({
     yes: option_yes,
     no: option_no,
