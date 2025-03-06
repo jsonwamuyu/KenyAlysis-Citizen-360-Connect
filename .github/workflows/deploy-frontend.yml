@@ -3,7 +3,7 @@ name: Frontend CI/CD Pipeline 🚀
 on:
   push:
     branches:
-      - main  # Change this if using a different deployment branch
+      - master  # Change this if using a different deployment branch
 
 jobs:
   # ✅ 1️⃣ Run Cypress E2E Tests
