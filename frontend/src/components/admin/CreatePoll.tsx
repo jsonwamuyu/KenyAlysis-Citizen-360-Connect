@@ -54,6 +54,7 @@ const CreatePoll = () => {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
+        data-cy="poll-title"
           type="text"
           name="title"
           placeholder="Poll Title"
@@ -64,6 +65,7 @@ const CreatePoll = () => {
         />
 
         <textarea
+        data-cy="description"
           name="description"
           placeholder="Poll Description"
           value={formData.description}
@@ -73,6 +75,7 @@ const CreatePoll = () => {
         ></textarea>
 
         <input
+        data-cy="expiry-date"
           type="date"
           name="expiry_date"
           value={formData.expiry_date}
@@ -82,6 +85,7 @@ const CreatePoll = () => {
         />
 
         <button
+        data-cy="poll-btn"
           type="submit"
           className="bg-green-600 text-white py-2 rounded hover:bg-green-700"
         >

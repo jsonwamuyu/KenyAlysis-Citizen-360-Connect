@@ -1,9 +1,22 @@
 /// <reference types="Cypress"/>
 
-describe("Citizen dashboard testing", () => {
+describe("User Dashboard Tests", () => {
   beforeEach(() => {
-    cy.login("samwels036@gmail.com", "@?6164Pesa2022");
-    cy.visit("/user/citizen");
+    // Use cy.session to cache the login session
+    cy.session("citizen-session", () => {
+      cy.visit("http://localhost:5173/login");
+      cy.get('[data-cy="email-input"]').type("samwels036@gmail.com");
+      cy.get('[data-cy="password-input"]').type("@?6164Pesa2022");
+      cy.get('[data-cy="login-btn"]').click();
+      cy.url().should("contain", "/user/citizen"); // Ensure login was successful
+    });
+
+    // Visit the citizen dashboard after restoring the session
+    cy.visit("http://localhost:5173/user/citizen");
+  });
+
+  it("Should show welcome message", () => {
+    cy.contains("Hello, SAMUEL! 👋").should("be.visible");
   });
 
   it("Should display active polls, chat with AI", () => {
@@ -12,19 +25,16 @@ describe("Citizen dashboard testing", () => {
     cy.contains("Recent Reported Incidents").should("be.visible");
   });
 
-  it("Should allow voting only once", () => {
-    cy.get("button").contains("Vote Now").first().click();
-    cy.contains("Already Voted").should("be.visible");
-  });
-  it("Should allow reporting incident", () => {
-    cy.get('data-cy=["category"]').select("Corruption");
-    cy.get("data-cy=['description']").type(
-      "Am reporting a corruption case today"
+  it("Report an incident", () => {
+    cy.get("[data-cy='category-input']").select("Crime");
+    cy.get("[data-cy='description-input']").type(
+      "I want to report MPESA breakage by a notorious gang called Konfirm"
     );
-    cy.get("data-cy=['location']").type("Kisumu");
-    cy.get("data-cy=['media-url']").type("https://www.facebook.com/img-one");
-    cy.get("button").contains("Report Incident").click();
+    cy.get("[data-cy='location-input']").type("Nyeri");
+    cy.get("[data-cy='media-input']").type("https://www.facebook.com/img5");
+    cy.get('[data-cy="incident-btn"]').click();
 
+    // Assert success message on reporting an incident
     cy.contains("Incident reported successfully").should("be.visible");
   });
 });

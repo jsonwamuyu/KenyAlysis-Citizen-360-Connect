@@ -23,3 +23,23 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+
+// Cypress.Commands.add("login", (email, password) => {
+//     // Simulate user interaction with the login form
+//     cy.visit("http://localhost:5173/login");
+//     cy.get('[data-cy="email-input"]').type(email);
+//     cy.get('[data-cy="password-input"]').type(password);
+//     cy.get('[data-cy="login-btn"]').click();
+  
+//     // Alternatively, if you want to set the token directly (useful for API tests)
+//     // cy.request("POST", "http://localhost:8080/api/auth/login", {
+//     //   email,
+//     //   password,
+//     // }).then((response) => {
+//     //   localStorage.setItem("token", response.body.token);
+//     // });
+//   });
+  
+  

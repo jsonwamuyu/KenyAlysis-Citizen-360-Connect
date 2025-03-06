@@ -83,6 +83,7 @@ const ReportIncident = () => {
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <select
+        data-cy="category-input"
           name="category"
           className="border p-2 rounded-md"
           value={formData.category}
@@ -96,6 +97,7 @@ const ReportIncident = () => {
           <option value="Other">Other</option>
         </select>
         <textarea
+         data-cy="description-input"
           name="description"
           placeholder="Describe your Incident"
           className="border p-2 rounded-md"
@@ -104,6 +106,7 @@ const ReportIncident = () => {
           required
         ></textarea>
         <input
+         data-cy="location-input"
           type="text"
           name="location"
           placeholder="Location"
@@ -114,6 +117,7 @@ const ReportIncident = () => {
         />
 
         <input
+         data-cy="media-input"
           type="text"
           name="media_url"
           placeholder="Media Url"
@@ -124,6 +128,7 @@ const ReportIncident = () => {
         />
 
         <button
+        data-cy="incident-btn"
           type="submit"
           className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
           disabled={loading}
