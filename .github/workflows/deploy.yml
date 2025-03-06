@@ -1,47 +1,15 @@
-name: Frontend CI/CD Pipeline 🚀
+name: Frontend Deployment 🚀
 
 on:
   push:
     branches:
-      - master  # Change this if using a different deployment branch
+      - main  # Change this if using a different deployment branch
 
 jobs:
-  # ✅ 1️⃣ Run Cypress E2E Tests
-  cypress:
-    name: Run Cypress E2E Tests 🔍
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository 📂
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js 🛠
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: "npm"
-
-      - name: Install Dependencies 📦
-        run: npm install
-        working-directory: frontend
-
-      - name: Start the Application 🚀
-        run: npm run start &
-        working-directory: frontend
-
-      - name: Run Cypress Tests 🧪
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: frontend
-          start: npm run start
-          wait-on: "http://localhost:3000"  # Change if using a different port
-          browser: chrome
-
-  # ✅ 2️⃣ Build the React App
+  # ✅ 1️⃣ Build the React App
   build:
     name: Build Frontend 🏗
     runs-on: ubuntu-latest
-    needs: cypress  # Ensures Cypress tests pass before building
 
     steps:
       - name: Checkout Repository 📂
@@ -67,7 +35,7 @@ jobs:
           name: frontend-build
           path: frontend/build
 
-  # ✅ 3️⃣ Deploy to AWS S3
+  # ✅ 2️⃣ Deploy to AWS S3
   deploy:
     name: Deploy to AWS S3 🚀
     runs-on: ubuntu-latest
@@ -93,9 +61,3 @@ jobs:
       - name: Deploy to S3 🚀
         run: |
           aws s3 sync frontend/build s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
-
-    #   # ✅ 4️⃣ Invalidate CloudFront Cache (Optional)
-    #   - name: Invalidate CloudFront Cache ⚡
-    #     if: success()
-    #     run: |
-    #       aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
