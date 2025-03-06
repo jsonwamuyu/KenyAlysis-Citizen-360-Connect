@@ -40,7 +40,7 @@ const UserManagement = () => {
     }
   };
 
-  const handleRoleChange = async (userId:number, newRoleId:string) => {
+  const handleRoleChange = async (userId: number, newRoleId: number) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -98,7 +98,7 @@ const UserManagement = () => {
                 <td className="py-2 px-4">
                   <select
                     className="border p-2 rounded-md"
-                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                    onChange={(e) => handleRoleChange(user.id, Number(e.target.value))}
                     value={user.role_id}
                   >
                     <option value="1">Citizen</option>

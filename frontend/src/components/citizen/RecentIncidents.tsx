@@ -1,18 +1,20 @@
 import IncidentCard from "./IncidentCard";
 import ReportIncident from "./ReportIncident";
-import { incidentData } from "../../utils";
+// import { incidentData } from "../../utils";
 import { useState, useEffect } from "react";
 import API from "../../utils/API/axiosInstance";
-import { jwtDecode } from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
 
 function RecentIncidents() {
-  const [incidents, setIncidents] = useState([]);
+  const [incidents, setIncidents] = useState<{ id: string; category: string; description: string; location: string; media_url: string; status: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchUserIncidents = async () => {
       try {
+        setLoading(true)
+        setErrorMessage("")
         const token = localStorage.getItem("token");
         if (!token) {
           setErrorMessage("User not authenticated. Please log in.");
@@ -21,7 +23,7 @@ function RecentIncidents() {
         }
 
         // Decode token to get user ID
-        const decodedToken = jwtDecode(token);
+        // const decodedToken = jwtDecode(token);
 
         const response = await API.get(
           "http://localhost:8080/api/incidents/my-incidents",

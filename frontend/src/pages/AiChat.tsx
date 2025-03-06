@@ -8,7 +8,7 @@ function AiChat() {
         <h5>The Constitution of Kenya</h5>
         <div>
           <Link to="#" className="text-green-500 flex flex-row items-center gap-2">
-          <ion-icon name="download"></ion-icon> Download PDF</Link>
+           Download PDF</Link>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-1 gap-8">

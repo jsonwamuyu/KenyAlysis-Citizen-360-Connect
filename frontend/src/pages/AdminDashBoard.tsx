@@ -7,7 +7,7 @@ import WelcomeMessage from "../components/WelcomeMessage";
 import AdminNavbar from "../components/admin/AdminNavbar";
 
 function AdminDashboard() {
-  let username = localStorage.getItem("username");
+  let username = localStorage.getItem("username") || "Guest";
 
   return (
     <div>

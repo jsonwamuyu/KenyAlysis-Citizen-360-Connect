@@ -9,7 +9,7 @@ import CitizenNavbar from "../components/citizen/CitizenNavbar";
 
 function CitizenDashboard() {
 
-  let username = localStorage.getItem("username");
+  let username = localStorage.getItem("username") || "Guest";
 
   return (
     <div>

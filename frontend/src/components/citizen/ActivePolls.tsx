@@ -2,7 +2,18 @@ import { useEffect, useState } from "react";
 import PollCard from "./PollCard";
 
 const Polls = () => {
-  const [polls, setPolls] = useState([]);
+  interface Poll {
+    id: string;
+    title: string;
+    description: string;
+    expiry_date: string;
+    option_yes: string;
+    option_no: string;
+    option_not_sure: string;
+    hasVoted: boolean;
+  }
+
+  const [polls, setPolls] = useState<Poll[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
