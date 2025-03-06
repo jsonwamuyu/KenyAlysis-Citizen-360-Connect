@@ -134,7 +134,7 @@ const GovernmentOfficialDashboard = () => {
     fetchIncidents();
   }, []);
 
-  const handleStatusChange = async (incidentId: number, newStatus: string) => {
+  const handleStatusChange = async (incidentId, newStatus) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {

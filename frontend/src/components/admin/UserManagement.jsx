@@ -33,7 +33,7 @@ const UserManagement = () => {
     }
   };
 
-  const handleRoleChange = async (userId: number, newRoleId: number) => {
+  const handleRoleChange = async (userId, newRoleId) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
