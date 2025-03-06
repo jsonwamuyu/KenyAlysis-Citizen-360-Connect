@@ -17,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: npm install
@@ -53,7 +53,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome # Use Chrome for running Cypress tests
-          headless: true   # Run tests in headless mode
+          headless: true # Run tests in headless mode
 
   # Step 3: Deploy job (depends on test)
   deploy:
@@ -70,7 +70,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: eu-north-1
 
       - name: Deploy to S3
-        run: aws s3 sync ./build s3://your-bucket-name --delete
+        run: aws s3 sync ./build s3://kenyalysis --delete
