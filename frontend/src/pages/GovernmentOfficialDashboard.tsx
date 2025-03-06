@@ -4,7 +4,7 @@ import WelcomeMessage from "../components/WelcomeMessage";
 import AllReportedIncidents from "../components/gvt-official/AllReportedIncidents";
 
 function GovernmentOfficialDashboard() {
-  const username = localStorage.getItem("username");
+  const username = localStorage.getItem("username") || "Guest";
   return (
     <div className="min-h-screen">
       <GvtOfficialNavbar />
