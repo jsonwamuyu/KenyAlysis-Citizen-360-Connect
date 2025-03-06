@@ -21,7 +21,7 @@ const PollCard = ({
   option_not_sure,
   hasVoted,
 }:PollCardProps) => {
-  const [voted, setVoted] = useState(hasVoted);
+  const [voted, setVoted] = useState(hasVoted === "true");
   const [votes, setVotes] = useState({
     yes: option_yes,
     no: option_no,
@@ -30,7 +30,7 @@ const PollCard = ({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleVote = async (voteOption) => {
+  const handleVote = async (voteOption: 'yes' | 'no' | 'notSure') => {
     if (voted) return; // Prevent multiple votes
 
     setLoading(true);

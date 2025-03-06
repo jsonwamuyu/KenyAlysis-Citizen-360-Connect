@@ -1,107 +1,17 @@
-// function AllReportedIncidents() {
-
-//     useEffect(() => {
-//         const fetchIncidents = async () => {
-//           try {
-//             const token = localStorage.getItem("token");
-//             if (!token) {
-//               setError("Unauthorized: No token provided.");
-//               setLoading(false);
-//               return;
-//             }
-
-//             const response = await API.get("http://localhost:8080/api/incidents", {
-//               headers: { Authorization: `Bearer ${token}` },
-//             });
-
-//             setIncidents(response.data.incidents);
-//           } catch (err) {
-//             setError("Error fetching incidents. Try again.");
-//           } finally {
-//             setLoading(false);
-//           }
-//         };
-
-//         fetchIncidents();
-//       }, []);
-
-//       const handleStatusChange = async (incidentId: number, newStatus: string) => {
-//         try {
-//           const token = localStorage.getItem("token");
-//           if (!token) {
-//             setError("Unauthorized: No token provided.");
-//             return;
-//           }
-
-//           await API.put(
-//             `http://localhost:8080/api/incidents/${incidentId}/status`,
-//             { status: newStatus },
-//             {
-//               headers: { Authorization: `Bearer ${token}` },
-//             }
-//           );
-
-//           setIncidents((prevIncidents) =>
-//             prevIncidents.map((incident) =>
-//               incident.id === incidentId ? { ...incident, status: newStatus } : incident
-//             )
-//           );
-//         } catch (error) {
-//           setError("Failed to update incident status.");
-//         }
-//       };
-
-//       const filteredIncidents =
-//         statusFilter === "all"
-//           ? incidents
-//           : incidents.filter((incident) => incident.status === statusFilter);
-
-//     const incidents = [
-//         {
-//           id: 1,
-//           category: 'Server Outage',
-//           description: 'Main database server went offline unexpectedly',
-//           location: 'Mombasa',
-//           status: 'resolved'
-//         },
-//         {
-//           id: 2,
-//           category: 'Network Interruption',
-//           description: 'Intermittent connectivity issues detected',
-//           location: 'Nakuru',
-//           status: 'inprogress'
-//         },
-//         {
-//           id: 3,
-//           category: 'Security Alert',
-//           description: 'Potential unauthorized access detected',
-//           location: 'Nairobi',
-//           status: 'submitted'
-//         }
-//       ];
-//   return (
-//     <div className="w-full">
-//       <div className="container">
-//         <h4>All Reported Incidents</h4>
-//         {/* Fetch all reported incidents then loop through */}
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-//           {incidents.map((incident) => {
-//             return <IncidentCardOfficial key={incident.id} {...incident} />;
-//           })}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-// export default AllReportedIncidents
-
 import { useEffect, useState } from "react";
 import API from "../../utils/API/axiosInstance";
-// import IncidentCardOfficial from "./IncidentCardOfficial";
 import IncidentCardOfficial from "./IncidentCardOfficial";
 
 const GovernmentOfficialDashboard = () => {
-  const [incidents, setIncidents] = useState([]);
+  interface Incident {
+    id: number;
+    category: string;
+    description: string;
+    location: string;
+    status: "submitted" | "inprogress" | "resolved";
+  }
+
+  const [incidents, setIncidents] = useState<Incident[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -134,7 +44,7 @@ const GovernmentOfficialDashboard = () => {
     fetchIncidents();
   }, []);
 
-  const handleStatusChange = async (incidentId, newStatus) => {
+  const handleStatusChange = async (incidentId: number, newStatus: string) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -161,6 +71,8 @@ const GovernmentOfficialDashboard = () => {
       setError("Failed to update incident status.");
     }
   };
+
+  console.log(handleStatusChange)
 
   const filteredIncidents =
     statusFilter === "all"
@@ -195,7 +107,7 @@ const GovernmentOfficialDashboard = () => {
               <IncidentCardOfficial
                 key={incident.id}
                  {...incident}
-                onStatusChange={handleStatusChange}
+
               />
             ))
           ) : (
