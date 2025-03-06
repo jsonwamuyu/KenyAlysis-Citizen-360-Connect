@@ -92,14 +92,16 @@ function LoginPage() {
 
           <form onSubmit={handleLogin} className="max-w-md flex flex-col gap-4 text-sm">
             <input
+            data-cy="email-input"
               name="email"
-              type="email"
+              type="text"
               placeholder="Email Address"
               className="border-[1px] rounded-sm p-2 border-gray-200"
               onChange={(e) => setEmail(e.target.value)}
               
             />
             <input
+            data-cy="password-input"
               type="password"
               name="password"
               placeholder="Password"
@@ -108,17 +110,17 @@ function LoginPage() {
               
             />
 
-            <button className="cta-primary mt-4" disabled={isLoading}>
+            <button className="cta-primary mt-4" disabled={isLoading} data-cy="login-btn">
               {isLoading ? "Logging in..." : "Login"}
             </button>
 
             <div className="text-sm flex flex-row justify-between gap-8 items-center mt-8">
-              <Link to="/forgot-password" className="text-green-600">
+              <Link to="/forgot-password" className="text-green-600" data-cy="forgot-password">
                 Forgot Password?
               </Link>
               <div>
                 Have no account?
-                <Link to="/signup" className="text-green-600"> Sign Up</Link>
+                <Link to="/signup" className="text-green-600" data-cy="signup-link"> Sign Up</Link>
               </div>
             </div>
           </form>
