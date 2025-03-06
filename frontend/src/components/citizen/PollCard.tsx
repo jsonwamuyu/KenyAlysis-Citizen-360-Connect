@@ -1,6 +1,16 @@
 import { useState } from "react";
 import API from "../../utils/API/axiosInstance";
 
+interface PollCardProps{
+  id:number,
+  title:string,
+  description:string,
+  expiry_date:string,
+  option_yes:string,
+  option_no:string,
+  option_not_sure:string,
+  hasVoted:string,
+}
 const PollCard = ({
   id,
   title,
@@ -10,7 +20,7 @@ const PollCard = ({
   option_no,
   option_not_sure,
   hasVoted,
-}) => {
+}:PollCardProps) => {
   const [voted, setVoted] = useState(hasVoted);
   const [votes, setVotes] = useState({
     yes: option_yes,
