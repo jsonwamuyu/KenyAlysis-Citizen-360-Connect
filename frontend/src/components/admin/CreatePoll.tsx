@@ -10,12 +10,12 @@ const CreatePoll = () => {
   const [error, setError] = useState("");
 
   // Handle input change
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   // Handle form submission
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setMessage("");
     setError("");
@@ -23,14 +23,17 @@ const CreatePoll = () => {
     try {
       const token = localStorage.getItem("token"); // Get JWT token
 
-      const response = await fetch("http://localhost:8080/api/polls/create-poll", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Send auth token
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/polls/create-poll",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Send auth token
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
@@ -49,12 +52,15 @@ const CreatePoll = () => {
     <div className="container" id="create-poll">
       <h3 className=" font-semibold mb-4">Create a New Poll</h3>
 
-      {message && <p className="text-green-600">{message}</p>}
-      {error && <p className="text-red-600">{error}</p>}
+      {message && <p className="text-green-600 py-4">{message}</p>}
+      {error && <p className="text-red-600 py-4">{error}</p>}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-4 w-full sm:max-w-lg"
+      >
         <input
-        data-cy="poll-title"
+          data-cy="poll-title"
           type="text"
           name="title"
           placeholder="Poll Title"
@@ -65,7 +71,7 @@ const CreatePoll = () => {
         />
 
         <textarea
-        data-cy="description"
+          data-cy="description"
           name="description"
           placeholder="Poll Description"
           value={formData.description}
@@ -75,7 +81,7 @@ const CreatePoll = () => {
         ></textarea>
 
         <input
-        data-cy="expiry-date"
+          data-cy="expiry-date"
           type="date"
           name="expiry_date"
           value={formData.expiry_date}
@@ -84,13 +90,15 @@ const CreatePoll = () => {
           required
         />
 
-        <button
-        data-cy="poll-btn"
-          type="submit"
-          className="bg-green-600 text-white py-2 rounded hover:bg-green-700"
-        >
-          Create Poll
-        </button>
+        <div>
+          <button
+            data-cy="poll-btn"
+            type="submit"
+            className="cta-primary"
+          >
+            Create a poll
+          </button>
+        </div>
       </form>
     </div>
   );
