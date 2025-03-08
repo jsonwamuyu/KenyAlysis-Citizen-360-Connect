@@ -1,7 +1,4 @@
-
-// import logo from "../assets/images/kenaylsis-logo.png";
 import { Link } from "react-router-dom";
-
 function ResetPassword() {
   return (
     <div className="w-full">
@@ -21,12 +18,13 @@ function ResetPassword() {
               placeholder="Confirm password"
               className="border-[1px] p-2 rounded-sm border-gray-200"
             />
-            
             <button className="cta-primary mt-4">Reset password</button>
           </form>
           <div className="mt-8 text-center text-sm">
-          <Link to="/signup" className="text-green-600">Go back to Login</Link>
-        </div>
+            <Link to="/signup" className="text-green-600">
+              Go back to Login
+            </Link>
+          </div>
         </div>
       </div>
     </div>
