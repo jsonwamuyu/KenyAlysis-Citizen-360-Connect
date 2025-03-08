@@ -5,6 +5,7 @@ import { AdminNavbarData } from "../../utils";
 
 function AdminNavbar() {
   const navigate = useNavigate();
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");

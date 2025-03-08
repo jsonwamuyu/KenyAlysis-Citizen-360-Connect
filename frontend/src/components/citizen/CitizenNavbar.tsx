@@ -5,10 +5,12 @@ import { CitizenNavbarData } from "../../utils";
 
 function CitizenNavbar() {
   const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
+  
   return (
     <div className="w-full bg-green-500 py-2 mb-8">
       <div className="flex flex-row gap-4 justify-between py-4 container">
