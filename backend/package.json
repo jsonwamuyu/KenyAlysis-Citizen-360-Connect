@@ -1,7 +1,7 @@
 {
-  "name": "posts-app",
+  "name": "kenyAlysi-app",
   "version": "1.0.0",
-  "description": "I will use this project to learn backend development",
+  "description": "This app educate citizens on various government documents. Also user can get a summary and responses using a chatbot",
   "license": "MIT",
   "author": "Johnson Wamuyu Muchiri",
   "type": "commonjs",

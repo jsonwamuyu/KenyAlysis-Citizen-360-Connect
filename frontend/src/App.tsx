@@ -8,7 +8,6 @@ import CitizenDashboard from "./pages/CitizenDashboard";
 import GovernmentOfficialDashboard from "./pages/GovernmentOfficialDashboard";
 import AdminDashboard from "./pages/AdminDashBoard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Logout from "./components/Logout"; // Import Logout Component
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/logout" element={<Logout />} /> {/* Logout Route */}
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute allowedRoles={[1]} />}>
@@ -29,7 +27,10 @@ function App() {
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={[2]} />}>
-          <Route path="/user/gvt-official" element={<GovernmentOfficialDashboard />} />
+          <Route
+            path="/user/gvt-official"
+            element={<GovernmentOfficialDashboard />}
+          />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={[3]} />}>
