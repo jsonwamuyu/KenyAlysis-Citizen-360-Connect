@@ -1,21 +1,20 @@
-name: Deploy Frontend
-
+name: Test, Build and deploy my app
 on:
-    push:
-        branches:
-            - master
-
+  push:
+    branches:
+      - master
 jobs:
-    build:
-        name: Build frontend
-        runs-on: ubuntu-latest
+  test:
+    name: Test the application
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout git repo
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                node-version: '18'
-                
+      - name: setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: install dependencies
+        run: npm install
