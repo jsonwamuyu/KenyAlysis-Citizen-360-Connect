@@ -1,21 +1,21 @@
-name: Deploy Final project
+name: Deploy Frontend
+
 on:
     push:
         branches:
             - master
+
 jobs:
     build:
+        name: Build frontend
         runs-on: ubuntu-latest
+
         steps:
-            - name: Get repository
+            - name: Checkout git repo
               uses: actions/checkout@v4
 
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
                 node-version: '18'
-                cache: 'npm'
-
-            - name: install dependencies
-              run: npm install
-
+                
