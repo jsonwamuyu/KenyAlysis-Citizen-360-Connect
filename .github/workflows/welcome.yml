@@ -16,5 +16,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18"
+
       - name: install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test
+  build:
+    name: Build the application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+
+      - name: setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: install dependencies
+        run: npm ci
+
+      - name: Build the application
+        run: npm run build
+
+  deploy:
+    name: Deploy to S3
+    runs-on: ubuntu-latest
+    steps:
