@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 function AiChat() {
   return (
     <div className="mt-8 flex flex-col gap-8">
-      {/* <div className="container"> */}
       <div className="flex flex-row items-center justify-between">
         <h5>The Constitution of Kenya</h5>
         <div>
@@ -18,7 +17,6 @@ function AiChat() {
             Your summary will appear here. this will be generated after you have
             clicked the button and see what you see. Make me believe in this office today.
           </p>
-          {/* summary goes here */}
         </div>
         <form action="" className="w-full md:w-2xl">
           <textarea
@@ -30,7 +28,6 @@ function AiChat() {
         </form>
         
       </div>
-      {/* </div> */}
     </div>
   );
 }
