@@ -1,0 +1,46 @@
+name: Test, build, and deploy KenyAlysis
+on:
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    name: Run tests for the application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Install dependencies
+        run: npm ci
+        working-directory: frontend
+
+      - name: Build the project
+        run: npm run build
+        working-directory: frontend
+
+      - name: Upload the artifacts(dist folder)
+        uses: actions/upload-artifacts@v4
+        with:
+          path: frontend/dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifacts@v4
+        with:
+          path: frontend/dist
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_KEY_ID}}
+          aws-region: eu-north-1
+      - name: Deploy to S3
+        run: |
+          aws s3 sync frontend/dist s3://${{secret.AWS_S3_BUCKET_NAME}} --delete
