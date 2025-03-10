@@ -4,9 +4,11 @@ on:
     branches:
       - master
 jobs:
-  test:
+  build:
     name: Run tests for the application
     runs-on: ubuntu-latest
+    outputs:
+      js_file:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,9 +29,13 @@ jobs:
         with:
           path: frontend/dist
 
+          # I may want this job to produce an output
+      - name: Publish js file
+        run: echo "js_file=$(find frontend/dist/assets/*.js -type f | head -n 1)" >> $GITHUB_OUTPUT # This value should persist
+
   deploy:
     runs-on: ubuntu-latest
-    needs: test
+    needs: build
     steps:
       - name: Download artifacts
         uses: actions/download-artifacts@v4
