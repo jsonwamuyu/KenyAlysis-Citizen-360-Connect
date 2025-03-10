@@ -8,7 +8,7 @@ jobs:
     name: Run tests for the application
     runs-on: ubuntu-latest
     outputs:
-      js_file:
+      js_file: ${{steps.publish.outputs.js_file}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -16,6 +16,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18"
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: key-${{hashFiles('**/package-lock.json')}}
+
       - name: Install dependencies
         run: npm ci
         working-directory: frontend
@@ -31,6 +37,7 @@ jobs:
 
           # I may want this job to produce an output
       - name: Publish js file
+        id: publish
         run: echo "js_file=$(find frontend/dist/assets/*.js -type f | head -n 1)" >> $GITHUB_OUTPUT # This value should persist
 
   deploy:
@@ -41,6 +48,9 @@ jobs:
         uses: actions/download-artifacts@v4
         with:
           path: frontend/dist
+
+      - name: Output JS file
+        run: echo "${{needs.build.outputs.js_file}}"
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -49,4 +59,4 @@ jobs:
           aws-region: eu-north-1
       - name: Deploy to S3
         run: |
-          aws s3 sync frontend/dist s3://${{secret.AWS_S3_BUCKET_NAME}} --delete
+          aws s3 sync frontend/dist s3://${{secrets.AWS_S3_BUCKET_NAME}} --delete
