@@ -10,4 +10,6 @@ CMD [ "nginx", '-g', '' ]
 # RUN docker run --network my_network --name container1 -d nginx
 # RUN docker run --network my_network --name container2 -d nginx
 # create a volume > docker volume create my_volume
+# list all volumes > docker volume ls
 # use volume to persist container data > docker run -d --name container1 -v my_volume:/app nginx:latest
+# inspect volume > docker volume inspect my_volume
