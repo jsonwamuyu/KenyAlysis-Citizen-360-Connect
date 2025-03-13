@@ -47,10 +47,8 @@ function LoginPage() {
     }
 
     try {
-      console.log("Sending Login Request:", { email, password });
       const response = await API.post("http://localhost:8080/api/auth/login", { email, password });
-      console.log('res is ', response)
-      console.log('reached here')
+  
       // Extract token and role_id
       const { token, role_id, username } = response.data;
 
