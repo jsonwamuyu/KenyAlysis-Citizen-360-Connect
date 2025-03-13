@@ -26,7 +26,8 @@ const poolPromise = new sql.ConnectionPool(dbConfig)
     process.exit(1);
   });
 
-  poolPromise.then(pool => console.log("✅ Database Pool Ready")).catch(err => console.error("❌ Pool Error:", err));
-
+poolPromise
+  .then((pool) => console.log("✅ Database Pool Ready"))
+  .catch((err) => console.error("❌ Pool Error:", err));
 
 module.exports = { poolPromise, sql };

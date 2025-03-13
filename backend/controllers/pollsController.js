@@ -11,21 +11,14 @@ const pollSchema = Joi.object({
 
 // Create a new poll (Admin Only)
 exports.createPoll = async (req, res) => {
-  console.log("Entering poll")
   try {
     const { error } = pollSchema.validate(req.body);
     if (error)
       return res
         .status(400)
         .json({ success: false, message: error.details[0].message });
-
     const { title, description, expiry_date } = req.body;
-    
     const created_by = req.user.userId;
-
-    console.log(req.user)
-    console.log(created_by)
-
     const pool = await poolPromise;
     await pool
       .request()
@@ -44,14 +37,12 @@ exports.createPoll = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Poll created successfully" });
   } catch (error) {
-    console.log(error)
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error",
-        error: error.message,
-      });
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };
 
@@ -65,13 +56,11 @@ exports.getAllPolls = async (req, res) => {
 
     res.json(result.recordset);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };
 
@@ -81,7 +70,7 @@ exports.getAllPolls = async (req, res) => {
 //     const user_id = req.user?.userId; // Get user ID from token
 
 //     const polls = await pool.request().query("SELECT * FROM Polls WHERE expiry_date > GETDATE()");
-    
+
 //     for (let poll of polls.recordset) {
 //       const checkVote = await pool.request()
 //         .input("poll_id", poll.id)
@@ -123,23 +112,17 @@ exports.getPollById = async (req, res) => {
 
     res.json(result.recordset[0]);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };
 
 // Vote on a poll
 exports.voteOnPoll = async (req, res) => {
   try {
-
-
-
-    
     const { id } = req.params;
     const { vote } = req.body; // Expected values: "yes", "no", "not_sure"
     const user_id = req.user.userId;
@@ -164,12 +147,10 @@ exports.voteOnPoll = async (req, res) => {
       );
 
     if (checkVote.recordset.length > 0) {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          message: "You have already voted on this poll",
-        });
+      return res.status(403).json({
+        success: false,
+        message: "You have already voted on this poll",
+      });
     }
 
     console.log("req.user:", req.user);
@@ -194,39 +175,45 @@ exports.voteOnPoll = async (req, res) => {
 
     res.json({ success: true, message: "Vote recorded successfully" });
   } catch (error) {
-    console.log(error)
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error what happened",
-        error: error.message,
-      });
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error what happened",
+      error: error.message,
+    });
   }
 };
 
 // Check if the user has already voted on a poll
 exports.hasUserVoted = async (req, res) => {
   try {
-      const { id } = req.params; // Poll ID from URL
-      const user_id = req.user.userId; // Get user ID from token
+    const { id } = req.params; // Poll ID from URL
+    const user_id = req.user.userId; // Get user ID from token
 
-      const pool = await db;
+    const pool = await db;
 
-      // Check if the user has already voted
-      const checkVote = await pool.request()
-          .input("poll_id", id)
-          .input("user_id", user_id)
-          .query("SELECT * FROM PollVotes WHERE poll_id = @poll_id AND user_id = @user_id");
+    // Check if the user has already voted
+    const checkVote = await pool
+      .request()
+      .input("poll_id", id)
+      .input("user_id", user_id)
+      .query(
+        "SELECT * FROM PollVotes WHERE poll_id = @poll_id AND user_id = @user_id"
+      );
 
-      if (checkVote.recordset.length > 0) {
-          return res.json({ success: true, hasVoted: true });
-      } else {
-          return res.json({ success: true, hasVoted: false });
-      }
+    if (checkVote.recordset.length > 0) {
+      return res.json({ success: true, hasVoted: true });
+    } else {
+      return res.json({ success: true, hasVoted: false });
+    }
   } catch (error) {
-      console.error("Error in hasUserVoted:", error);
-      res.status(500).json({ success: false, message: "Internal server error", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal server error",
+        error: error.message,
+      });
   }
 };
 
@@ -256,13 +243,11 @@ exports.getPollResults = async (req, res) => {
 
     res.status(200).json({ success: true, results: result.recordset[0] });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };
 
@@ -273,26 +258,37 @@ exports.deletePoll = async (req, res) => {
     const pool = await poolPromise; // Ensure correct DB connection
 
     // Check if the poll exists
-    const checkPoll = await pool.request()
+    const checkPoll = await pool
+      .request()
       .input("id", sql.Int, id)
       .query("SELECT id FROM Polls WHERE id = @id");
 
     if (checkPoll.recordset.length === 0) {
-      return res.status(404).json({ success: false, message: "Poll not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Poll not found" });
     }
 
     // Delete votes associated with the poll first (to avoid foreign key constraint issues)
-    await pool.request()
+    await pool
+      .request()
       .input("poll_id", sql.Int, id)
       .query("DELETE FROM PollVotes WHERE poll_id = @poll_id");
 
     // Delete the poll
-    await pool.request()
+    await pool
+      .request()
       .input("id", sql.Int, id)
       .query("DELETE FROM Polls WHERE id = @id");
 
     res.json({ success: true, message: "Poll deleted successfully" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Internal server error", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal server error",
+        error: error.message,
+      });
   }
-}
+};

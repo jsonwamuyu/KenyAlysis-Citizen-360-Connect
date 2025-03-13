@@ -12,6 +12,7 @@ router.post(
   authController.sendForgotPasswordEmail
 );
 router.patch('/reset-password', authController.resetPassword)
+
 // router.patch("/verify-forgot-password-code", authController.verifyForgotPasswordCode);
 
 // Later implementation

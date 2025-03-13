@@ -5,7 +5,6 @@ const { authenticate, authorizeAdmin } = require('../middlewares/authMiddleware.
 const router = express.Router();
 
 // Create a new poll (Admin Only)
-// router.post('/', authenticate, authorizeAdmin, pollController.createPoll);
 router.post('/create-poll',authenticate,authorizeAdmin, pollController.createPoll);
 
 // Get all active polls

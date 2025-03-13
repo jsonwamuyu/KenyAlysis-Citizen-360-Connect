@@ -4,7 +4,8 @@ WORKDIR /app
 COPY package.json .
 RUN apt-get update && apt-get install -y nodejs
 EXPOSE 80
-CMD [ "nginx", '-g', '' ]
+
+# CMD [ "nginx", '-g', 'chemical composition ' ]
 
 # Make two containers communicate through the same network
 # RUN docker run --network my_network --name container1 -d nginx

@@ -15,7 +15,7 @@ describe("Test Signup functionalities", () => {
   });
 
   it("Should display error for invalid email format", () => {
-    cy.get("[data-cy='username-input']").type("JOHNSON MUCHIRI");
+    cy.get("[data-cy='username-input']").type("JOY SNOW");
     cy.get('[data-cy="email-input"]').type("invalid-email");
     cy.get('[data-cy="password-input"]').type("password123");
     cy.get('[data-cy="signup-btn"]').click();
