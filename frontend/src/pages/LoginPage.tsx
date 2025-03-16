@@ -55,8 +55,6 @@ function LoginPage() {
       // Store token in localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("username", username);
-
-      console.log(role_id)
       // Redirect user based on role
       switch (role_id) {
         case 1:
